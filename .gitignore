@@ -1,0 +1,12 @@
+
+# Node modules
+/server/node_modules/
+
+# Build output
+/server/dist/
+/server/build/
+
+# Environment files
+/server/.env
+/server/.env.local
+/server/.env.*.local
