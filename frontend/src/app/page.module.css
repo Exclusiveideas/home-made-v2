@@ -1,0 +1,14 @@
+.page {
+    background-color: var(--app-bg-color);
+    width: 100%;
+    position: relative;
+}
+
+.mainContent {
+    width: 100%;
+    min-height: 100vh;
+    /* position: relative; */
+}
+
+.sectionTwoWrapper {
+}

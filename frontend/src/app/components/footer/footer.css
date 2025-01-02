@@ -1,0 +1,277 @@
+.footerWrapper {
+    width: 100%;
+    height: 50vh;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.topFooter_wrapper {
+    display: flex;
+    width: 100%;
+    height: 80%;
+    box-sizing: border-box;
+}
+
+.topFooter_wrapper_left {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.topFooter_wrapper_left_upperSection {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    gap: 3rem;
+    position: relative;
+}
+
+.logo_container .site_logo {
+    width: 250px;
+}
+
+.app_name_container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    font-size: 3rem;
+    font-family: 'Playfair Display', 'Poppins', Georgia, sans-serif;
+    font-weight: 500;
+    padding-bottom: 1rem;
+    height: 100%;
+}
+
+.app_name_container>p {
+    padding: .2rem 1rem;
+    border: 7px solid #AADE97;
+}
+
+.topFooter_wrapper_left_upperSection hr {
+    position: absolute;
+    width: 95%;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 1px solid #696485;
+}
+
+.topFooter_wrapper_left_lowerSection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.contactItem {
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    font-size: 15px;
+}
+
+
+.topFooter_wrapper_right {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-direction: column;
+    padding-right: 2rem;
+    gap: 1.2rem;
+    box-sizing: border-box;
+}
+
+.topFooter_wrapper_right>p {
+    font-family: 'Playfair Display', 'Poppins', Georgia, sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.inquireBtn {
+    background-color: #AFADBE;
+    box-sizing: border-box;
+    padding: .9rem 1.7rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease-in;
+}
+
+.inquireBtn:hover {
+    background-color: #a3a1ad;
+}
+
+
+.bottomFooter_wrapper {
+    display: flex;
+    width: 100%;
+    height: 20%;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Tablets */
+@media (max-width: 992px) {
+    .topFooter_wrapper {
+        flex-direction: column;
+        width: 100%;
+        height: 90%;
+        flex: 1;
+        justify-content: space-around;
+        /* border: 1px solid red; */
+    }
+
+
+
+    .topFooter_wrapper_left {
+        width: 100%;
+    }
+
+
+    .app_name_container {
+        font-size: 5.3vw;
+    }
+
+    .app_name_container>p {
+        padding: .2rem .4rem;
+    }
+
+
+    .topFooter_wrapper_right {
+        width: 90%;
+        justify-content: center;
+        align-items: center;
+        padding-right: 0;
+        padding: 0 2rem;
+        gap: 1.5rem;
+        border: 1px solid rgba(0, 0, 0, 0.333);
+        align-self: center;
+    }
+
+    .topFooter_wrapper_right>p {
+        font-size: 3.7vw;
+        text-align: center;
+    }
+
+}
+
+
+
+
+
+
+/* Mobile */
+@media (max-width: 575px) {
+    .footerWrapper {
+        min-height: 70vh;
+        height: max-content;
+        gap: 2rem;
+        justify-content: space-between;
+        padding-bottom: 1rem;
+    }
+
+
+    .topFooter_wrapper {
+        flex-direction: column;
+        width: 100%;
+        height: 90%;
+        flex: 1;
+        justify-content: space-around;
+        /* border: 1px solid red; */
+    }
+
+    .topFooter_wrapper_left_upperSection {
+        padding: 1.5rem;
+        flex-direction: column-reverse;
+        gap: 1rem;
+        text-align: center;
+    }
+
+
+    .logo_container .site_logo {
+        width: 200px;
+    }
+
+    .app_name_container {
+        font-size: 2.2rem;
+        font-weight: 500;
+        padding-bottom: 0;
+    }
+
+
+    .topFooter_wrapper_left_lowerSection {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        justify-content: flex-start;
+        padding: .5rem 1rem;
+    }
+
+    .contactItem {
+        gap: .3rem;
+        font-size: 12px;
+    }
+
+    .contact_icon {
+        transform: scale(.7);
+    }
+
+
+    .topFooter_wrapper_right {
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .topFooter_wrapper_right>p {
+        font-size: 4.5vw;
+    }
+
+    .inquireBtn {
+        font-size: 13px;
+    }
+
+
+    .bottomFooter_wrapper {
+        width: 100%;
+        height: 10%;
+        font-size: 11px;
+    }
+
+
+}

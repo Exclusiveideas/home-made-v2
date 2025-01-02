@@ -1,0 +1,30 @@
+
+.profilePage {
+
+    background-color: var(--app-bg-color);
+    width: 100vw;
+    min-height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem;
+    padding-top: 0;
+    padding-right: 2rem;
+    flex-direction: column;
+}
+
+
+
+
+
+
+
+/* Mobile */
+@media (max-width: 575px) {
+    .profilePage {
+        padding: .7rem;
+        padding-top: 0;
+        padding-right: .7rem;
+    }
+}

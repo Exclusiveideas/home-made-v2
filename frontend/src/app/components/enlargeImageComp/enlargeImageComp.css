@@ -1,0 +1,79 @@
+
+.enlargeImageComp_wrapper {
+    width: 60vw;
+    min-height: 300px;
+    background-color: var(--app-bg-color);
+
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 2rem 1rem;
+    color: black;
+    gap: 2.5rem;
+    position: relative;
+}
+
+.closeIcon {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+
+.certificateImage_enlarged {
+    width: 50vw;
+    height: max-content;
+}
+
+
+
+
+
+
+
+
+
+
+/* Mobile */
+@media (max-width: 992px) {
+    .enlargeImageComp_wrapper {
+        width: 85vw;
+        padding: 2.7rem.7rem;
+        gap: 2.5rem;
+    }
+    
+    .closeIcon {
+        right: 1rem;
+        top: .8rem;
+        font-size: 30px;
+    }
+    
+    .certificateImage_enlarged {
+        width: 90%;
+    }
+    
+}
+
+
+
+
+/* Mobile */
+@media (max-width: 575px) {
+    .enlargeImageComp_wrapper {
+        width: 85vw;
+        padding: 2.3rem.7rem;
+    }
+    
+    .closeIcon {
+        right: 1rem;
+        top: .8rem;
+        font-size: 22px;
+    }
+    
+    .certificateImage_enlarged {
+        width: 90%;
+    }
+    
+}

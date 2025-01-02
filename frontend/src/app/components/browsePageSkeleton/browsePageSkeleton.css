@@ -1,0 +1,28 @@
+.browsePageSkeleton_container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+}
+
+.rectSkeleton {
+    width: 100%;
+}
+
+ 
+
+/* Tablets */
+@media (max-width: 992px) {
+    .browsePageSkeleton_container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+/* Mobile */
+@media (max-width: 575px) {
+    .browsePageSkeleton_container {
+        grid-template-columns: 1fr ;
+    }
+}

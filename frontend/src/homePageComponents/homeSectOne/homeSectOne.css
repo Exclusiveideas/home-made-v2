@@ -1,0 +1,273 @@
+.homeSectOne_wrapper {
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+  margin-top: 35vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4.5rem;
+  padding-top: 5rem;
+  position: relative;
+}
+
+.upper_layer {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 5;
+}
+
+.chefWithPlate_img {
+  z-index: 5;
+}
+
+.blob {
+  width: 500px;
+  height: 500px;
+  background: #A9D87E;
+  border-radius: 50%;
+  filter: blur(12px);
+  animation: morph 4.5s infinite ease-in-out;
+  opacity: .7;
+
+
+  position: absolute;
+  left: 50%;
+  top: -15%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.section_one_blob {
+  position: absolute;
+  left: 50%;
+  top: -15%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+
+.fourSteps_container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+.fourSteps_container h3 {
+  font-size: 2.5rem;
+  text-align: center;
+  max-width: 60%;
+  font-weight: 500;
+}
+
+
+.fourSteps_container h3 span {
+  color: #5b884a;
+  font-weight: 600;
+}
+
+
+
+@keyframes morph {
+  0% {
+    border-radius: 50% 50% 60% 40% / 50% 60% 40% 50%;
+  }
+
+  25% {
+    border-radius: 60% 40% 50% 50% / 40% 50% 60% 50%;
+  }
+
+  50% {
+    border-radius: 50% 50% 40% 60% / 60% 40% 50% 50%;
+  }
+
+  75% {
+    border-radius: 40% 60% 50% 50% / 50% 50% 40% 60%;
+  }
+
+  100% {
+    border-radius: 50% 50% 60% 40% / 50% 60% 40% 50%;
+  }
+}
+
+
+
+
+.drawings_container {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  z-index: 3;
+}
+
+.no-scrollBar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollBar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.food_image {
+  position: absolute;
+}
+
+.food_image.chicken {
+  left: 5%;
+  top: 15%;
+  rotate: -15deg;
+  scale: 0.5;
+}
+
+.food_image.covered_plate {
+  right: 4%;
+  top: 20%;
+  scale: 0.4;
+}
+
+.food_image.cup {
+  bottom: 40%;
+  left: 5%;
+  rotate: 10deg;
+  scale: 0.4;
+}
+
+.food_image.huge_meat {
+  bottom: 20%;
+  right: 5%;
+  scale: 0.6;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Tablets */
+@media (max-width: 992px) {
+
+  .homeSectOne_wrapper {
+    gap: 7rem;
+    margin-top: 15rem;
+    padding-top: 0;
+  }
+
+  .fourSteps_container h3 {
+    font-size: 3rem;
+    max-width: 80%;
+    font-weight: 600;
+  }
+
+
+  .fourSteps_container h3 span {
+    font-weight: 700;
+  }
+
+
+  .food_image.chicken {
+    left: 1rem;
+    top: 50%;
+    scale: 1;
+    width: 130px;
+    height: max-content;
+  }
+
+  .food_image.covered_plate {
+    right: 10%;
+    top: 2rem;
+    rotate: -15deg;
+    scale: 1;
+    width: 100px;
+    height: max-content;
+  }
+
+  .food_image.cup {
+    bottom: 2rem;
+    left: 10%;
+    rotate: 10deg;
+    scale: 1;
+    width: 30px;
+    height: max-content;
+  }
+
+  .food_image.huge_meat {
+    scale: 1;
+    width: 120px;
+    height: max-content;
+  }
+}
+
+
+
+
+
+
+/* Mobile */
+@media (max-width: 575px) {
+  .homeSectOne_wrapper {
+    gap: 5rem;
+  }
+
+
+  .chefWithPlate_img {
+    width: 300px;
+    height: max-content;
+  }
+
+  .blob {
+    width: 350px;
+    height: 350px;
+  }
+
+  .fourSteps_container h3 {
+    font-size: 2.1rem;
+    max-width: 90%;
+    font-weight: 600;
+  }
+
+
+  .fourSteps_container h3 span {
+    font-weight: 700;
+  }
+
+
+
+  .food_image.chicken {
+    width: 100px;
+  }
+
+  .food_image.covered_plate {
+    width: 90px;
+  }
+
+  .food_image.cup {
+    left: 20%;
+    width: 25px;
+  }
+
+  .food_image.huge_meat {
+    display: none;
+  }
+
+}

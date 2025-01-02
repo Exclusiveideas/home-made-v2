@@ -1,0 +1,382 @@
+.editCompWrapper {
+    width: 60vw;
+    min-height: 300px;
+    background-color: var(--app-bg-color);
+
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 2rem 1rem;
+    color: black;
+    gap: 2.5rem;
+    position: relative;
+}
+
+.editComp_closeIcon {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+
+.editComp_closeIcon:hover {
+    transform: scale(1.1);
+}
+
+.editComponentTitle {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.editProfileName_form_container {
+    align-items: center;
+    width: 70%;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+
+
+.onboard_inputBox {
+    box-sizing: border-box;
+    display: flex;
+    width: 78%;
+    border-radius: 4px;
+    gap: .5rem;
+    padding: .3rem .7rem;
+    align-items: center;
+    border: 1px solid rgb(0, 0, 0);
+}
+
+
+.onboard_inputBox.fullWith {
+    width: 100%;
+}
+
+.onboard_inputBox.jobDuration {
+    width: max-content;
+}
+
+
+.onboard_inputBox.jobDuration span {
+    font-size: 13px;
+}
+
+
+.inputEl {
+    padding: .5rem;
+    flex: 1;
+    outline: none;
+    background-color: transparent;
+    border: none;
+    color: black;
+}
+
+
+
+
+.buttonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+
+.editProfileBtn {
+    width: max-content;
+    padding: .8rem 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    align-self: center;
+
+    pointer-events: auto;
+    background: var(--app-bg-color);
+    margin: 0;
+    font-family: inherit;
+    position: relative;
+    display: inline-block;
+    margin-top: 1rem;
+}
+
+button:focus-visible {
+    outline: 2px solid #443ffc;
+    outline-offset: 3px;
+}
+
+
+.button::before,
+.button::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.editProfileBtn {
+    font-family: aktiv-grotesk-extended, sans-serif;
+    font-weight: 500;
+    border: 2px solid #000;
+    overflow: hidden;
+    color: #fff;
+}
+
+.editProfileBtn span {
+    position: relative;
+    mix-blend-mode: difference;
+}
+
+.editProfileBtn::before {
+    content: '';
+    background: #000;
+    transition: transform 0.3s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.editProfileBtn:hover::before {
+    transform: translate3d(0, -100%, 0);
+}
+
+
+
+.profilePicture_uploadBox {
+    /* border: 1px solid blue; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.addImgCirc {
+    width: 200px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgb(0, 0, 0);
+    cursor: pointer;
+    position: relative;
+    z-index: 8;
+    box-sizing: border-box;
+    transition: all 0.3s ease-in;
+}
+
+.imagePreview {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 5;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+
+}
+
+.file-input {
+    /* Hide the actual file input */
+    display: none;
+}
+
+.selectFile {
+    font-size: 12px;
+    width: max-content;
+    padding: .2rem .5rem;
+}
+
+.onboard_inputBox.profileOverview.editProfile {
+    width: 100%;
+    height: 250px;
+}
+
+.inputEl.profileOverview.editProfile {
+    resize: none;
+    height: 100%;
+    width: 100%;
+}
+
+
+/* add a new dish */
+
+
+.inputLabel {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.inputLabel.addADish {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+
+.uploadDish_wrapper {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: .7rem;
+    /* padding: 1rem; */
+    width: 100%;
+}
+
+
+.onboard_inputBox.addADish {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    font-size: 12px;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 4px;
+    gap: .5rem;
+    padding: .3rem .7rem;
+}
+
+
+.dishesImgList {
+    display: flex;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    padding: 0;
+    padding-left: 1rem;
+    width: 100%;
+    max-height: 10vh;
+    overflow-y: auto;
+}
+
+
+/* employment section */
+
+.durationContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Mobile */
+@media (max-width: 992px) {
+
+    .editCompWrapper {
+        width: 75vw;
+    }
+
+    .editComponentTitle {
+        font-size: 27px;
+        font-weight: 600;
+        width: 100%;
+    }
+
+    .editProfileName_form_container {
+        width: 90%;
+        gap: 1rem;
+    }
+
+
+    .onboard_inputBox.jobDuration {
+        max-width: 45%;
+    }
+
+
+
+    .onboard_inputBox.profileOverview.editProfile {
+        padding: 0;
+    }
+
+    .inputEl.profileOverview.editProfile {
+        /* font-size: 12px; */
+    }
+
+
+}
+
+
+/* Mobile */
+@media (max-width: 575px) {
+    .editCompWrapper {
+        width: 94vw;
+
+        border-radius: 10px;
+        padding: 1.5rem 1rem;
+        gap: 1.5rem;
+        min-height: 100px;
+    }
+
+    .editComp_closeIcon {
+        right: .7rem;
+        top: 1rem;
+        font-size: 20px;
+    }
+
+    
+    .editComponentTitle {
+        font-size: 20px;
+    }
+
+
+    .editProfileName_form_container {
+        width: 100%;
+    }
+
+
+    .durationContainer {
+        flex-direction: column;
+        gap: .3rem;
+    }
+
+
+    .onboard_inputBox.jobDuration {
+        max-width: 75%;
+        width: 75%;
+    }
+
+    .inputEl.profileOverview.editProfile {
+        font-size: 11px;
+    }
+
+
+    .editProfileBtn {
+        transform: scale(.8);
+    }
+
+    
+
+.inputLabel.addADish {
+    font-size: 11px;
+    font-weight: 500;
+    text-align: center;
+}
+
+    
+
+}

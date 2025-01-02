@@ -1,0 +1,10 @@
+
+
+.ctaBtn_wrapper {
+    border: 1px solid black;
+    box-sizing: border-box;
+    padding: .7rem 2rem;
+    cursor: pointer;
+    color: var(--text-color);
+    margin-top: .2rem;
+}

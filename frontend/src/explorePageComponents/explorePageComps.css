@@ -1,0 +1,381 @@
+
+.expandedDishDetails_wrapper {
+    width: 70vw;
+    height: 85vh;
+    background-color: var(--app-bg-color);
+
+    border-radius: 12px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 2rem 3rem;
+    color: black;
+    gap: 1.5rem;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+ 
+.actionBtns {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.deleteDishIcon {
+    transition: all 0.3s ease-in;
+    cursor: pointer;
+    transform: scale(1.1);
+    display: none;
+}
+
+.deleteDishIcon.visible {
+    display: flex;
+}
+
+.editDishIcon {
+    transition: all 0.3s ease-in;
+    cursor: pointer;
+    transform: scale(1.1);
+    display: none;
+}
+
+.editDishIcon.visible {
+    display: flex;
+}
+
+.editDishIcon:hover {
+    transform: scale(1.3);
+}
+
+.closeDishIcon {
+    cursor: pointer;
+}
+
+.expandedDishDetails_wrapper .titleContainer h4 {
+    /* border: 1px solid black; */
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.expandedDishesImages {
+    display: flex;
+    /* border: 1px solid black; */
+    box-sizing: border-box;
+    gap: 1.5rem;
+    overflow: v;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: .5rem;
+    height: 40%;
+    overflow-y: hidden;
+}
+
+
+.expandedDishesImages::-webkit-scrollbar {
+    height: .8em;
+  }
+   
+  
+.expandedDishesImages::-webkit-scrollbar-track {
+    border-radius: 25px;
+  }
+   
+  
+.expandedDishesImages::-webkit-scrollbar-thumb {
+    background-color: rgba(128, 128, 128, 0.604);
+    border-radius: 25px;
+  }
+
+.expandedImages_enlarged {
+    width: 300px;
+    height: 100%;
+}
+
+.expandedDishes_description {
+    /* border: 1px solid black; */
+    height: 40%;
+    overflow-y: auto;
+}
+
+
+.expandedDishes_description::-webkit-scrollbar {
+    width: .5em;
+  }
+   
+  
+.expandedDishes_description::-webkit-scrollbar-track {
+    border-radius: 25px;
+  }
+   
+  
+.expandedDishes_description::-webkit-scrollbar-thumb {
+    background-color: rgba(128, 128, 128, 0.604);
+    border-radius: 25px;
+  }
+
+.expandedDishes_description p {
+    width: 100%;
+    white-space: pre-wrap; 
+    word-wrap: break-word;
+    font-size: 15px;
+}
+
+.descriptionContainer h4 {
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.dish_chefSection {
+    border: 1px solid rgb(105, 105, 105);
+    border-radius: 18px;
+    height: 30%;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: 0 1rem;
+}
+
+
+.dish_chefSection .leftSection {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: .5rem;
+    gap: .7rem;
+    cursor: pointer;
+}
+
+.chefPic_container {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    overflow: hidden;
+}
+
+.dish_chefImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease-in;
+}
+
+.dish_chefSection .leftSection:hover .dish_chefImg {
+    transform: scale(1.05);
+}
+
+.dish_chefSection .leftSection .chefInfo_container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+
+.dish_chefSection .leftSection .chefInfo_container .chefName {
+    font-size: 17px;
+}
+
+
+
+.dish_chefSection .leftSection .chefInfo_container .chefTitle {
+    font-size: 14px;
+}
+
+
+.dish_chefSection .rightSection {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: .5rem;
+    gap: .7rem;
+}
+
+
+.chatBtn {
+    width: max-content;
+    padding: .8rem 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    align-self: center;
+
+    pointer-events: auto;
+    background: var(--app-bg-color);
+    margin: 0;
+    font-family: inherit;
+    position: relative;
+    display: inline-block;
+    margin-top: 1rem;
+    transform: scale(.9);
+}
+
+
+.chatBtn.logout {
+    margin-top: 0;
+    transform: scale(1);
+}
+
+
+button:focus-visible {
+    outline: 2px solid #443ffc;
+    outline-offset: 3px;
+}
+
+
+.button::before,
+.button::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.chatBtn {
+    font-family: aktiv-grotesk-extended, sans-serif;
+    font-weight: 500;
+    border: 2px solid #000;
+    overflow: hidden;
+    color: #fff;
+}
+
+.chatBtn span {
+    position: relative;
+    mix-blend-mode: difference;
+}
+
+.chatBtn::before {
+    content: '';
+    background: #000;
+    transition: transform 0.3s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.chatBtn:hover::before {
+    transform: translate3d(0, -100%, 0);
+}
+
+
+
+
+
+
+
+/* Tablets */
+@media (max-width: 992px) {
+
+   
+.expandedDishDetails_wrapper {
+    width: 85vw;
+    height: 80vh;
+
+    padding: 2rem 3rem;
+    gap: 1.5rem;
+}
+
+}
+
+
+
+
+/* Mobile */
+@media (max-width: 575px) {
+ 
+   
+.expandedDishDetails_wrapper {
+    width: 95vw;
+    height: 95vh;
+
+    padding: 1.5rem;
+    padding-top: 3rem;
+    gap: .7rem;
+}
+
+.actionBtns {
+    position: absolute;
+    right: .7rem;
+    top: .7rem;
+    gap: .7rem;
+}
+
+.deleteDishIcon {
+    font-size: 22px;
+    transform: scale(1.1);
+}
+
+.editDishIcon {
+    font-size: 22px;
+    transform: scale(.9);
+}
+
+.editDishIcon:hover {
+    transform: scale(1.1);
+}
+
+.closeDishIcon {
+    font-size: 22px;
+}
+
+.expandedDishDetails_wrapper .titleContainer h4 {
+    font-size: 22px;
+    
+}
+
+.expandedDishes_description p {
+    font-size: 12px;
+}
+
+.descriptionContainer h4 {
+    font-size: 19px;
+}
+
+
+
+.dish_chefSection {
+    height: 22%;
+    padding: .5rem;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+
+.dish_chefSection .leftSection {
+    padding: 0rem;
+}
+
+.chefPic_container {
+    width: 50px;
+    height: 50px;
+}
+
+
+.dish_chefSection .leftSection .chefInfo_container .chefName {
+    font-size: 16px;
+}
+
+.dish_chefSection .leftSection .chefInfo_container .chefTitle {
+    font-size: 13px;
+}
+
+.chatBtn {
+    font-size: 15px;
+    margin-top: 0;
+}
+
+
+}

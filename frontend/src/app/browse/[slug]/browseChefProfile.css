@@ -1,0 +1,718 @@
+
+.browseChefProfile {
+
+    background-color: var(--app-bg-color);
+    width: 100vw;
+    min-height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem;
+    padding-top: 0;
+    padding-right: 2rem;
+    flex-direction: column;
+}
+
+
+
+.clientProfilePage {
+    width: 100%;
+    height: 100%;
+    /* border: 1px solid black; */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 3rem;
+    box-sizing: border-box;
+}
+
+.clientProfilePage_topSection {
+    display: flex;
+    flex-direction: column;
+    /* border: 1px solid black; */
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.profilePic_container {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+
+.changeProfilePic_container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    z-index: 5;
+    left: 0;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.579);
+    color: white;
+    display: none;
+}
+
+.changeProfilePic_container.chef {
+    font-size: 70%;
+}
+
+.profilePic_container:hover .changeProfilePic_container {
+    display: flex;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.profilePage_picture {
+    width: 100%;
+    height: 100%;
+}
+
+
+.nameBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    cursor: pointer;
+}
+
+.nameBox.alignLeft{
+    justify-content: flex-start;
+}
+
+.nameBox.fullWidth {
+    width: 100%;
+}
+
+.nameBox.column {
+    flex-direction: column;
+}
+
+.nameBox .editIcon {
+    visibility: hidden;
+    transition: all 0.3s ease-in;
+    cursor: pointer;
+}
+
+.nameBox .editIcon.top {
+    align-self: baseline;
+    transform: scale(1.25);
+}
+
+.nameBox .editIcon:hover {
+    transform: scale(1.15);
+}
+
+.nameBox .editIcon.top:hover {
+    transform: scale(1.5);
+}
+
+.userName {
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.nameBox:hover .editIcon {
+    visibility: visible;
+}
+
+.clientProfilePage_otherSection {
+    /* border: 1px solid black; */
+    width: 70%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
+.sectionHeaderTxt {
+    font-size: 30px;
+    font-weight: 500;
+    margin-left: .5rem;
+    cursor: pointer;
+}
+
+.sectionHeaderTxt:hover {
+    text-decoration: underline;
+}
+
+.clientProfilePage_otherSection_innerWrapper {
+    border: 1px solid black;
+    width: 100%;
+    flex: 1;
+    border-radius: 15px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    /* align-items: center; */
+    justify-content: center;
+}
+
+
+.singleChat_container {
+    display: flex;
+    /* border: 1px solid black; */
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    background-color: #afafaf3e;
+    padding: .5rem 1rem;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+
+.singleChat_container:hover {
+    transform: scale(1.02);
+}
+
+.chefImg_container {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.singleChat_pic {
+    width: 100%;
+    height: 100%;
+}
+
+.chatDetails_container {
+    /* border: 1px solid black; */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    /* padding: .5rem; */
+}
+
+.chat_chefName {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.chat_lastMessage {
+    font-size: 12px;
+}
+
+.chatdate_container {
+    font-size: 13px;
+}
+
+
+.singleChat_container.hires {
+    flex-direction: column;
+    gap: .2rem;
+}
+
+.jobTitle_container {
+    /* border: 1px solid black; */
+    text-align: left;
+    font-weight: 600;
+    font-size: 17px;
+    width: 100%;
+}
+
+
+.assignedChef_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* border: 1px solid black; */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+.assignedChef_container .chefName_text {
+    font-size: 12px;
+}
+
+.assignedChef_container .chefName_text > span {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.assignedChef_container .jobProgress {
+    font-size: 14px;
+    font-style: italic;
+}
+
+
+
+
+
+
+/* Chef Profile */
+
+.chefProfile_page {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    flex-direction: column;
+    padding: 3rem 0;
+}
+
+.chefProfile_wrapper {
+    border: 1px solid rgb(168, 168, 168);
+    border-radius: 10px;
+    width: 85%;
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: 2rem 0;
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.topPicture_section {
+    width: 100%;
+    border-bottom: 1px solid rgb(168, 168, 168);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.topPicture_section_innerCont {
+    height: 100%;
+    padding: 2rem;
+    padding-top: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1.5rem;
+}
+
+
+.topPicture_section_rightSection {
+    height: 100%;
+    padding-right: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.chatBtn.profilePage {
+    margin-top: 0;
+    transform: scale(1);
+}
+
+
+.profilePic_container.chef {
+    width: 150px;
+    height: 150px;
+}
+
+
+.topPicture_section_nameContainer {
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+    margin-top: 1.5rem;
+}
+
+
+.topPicture_section_nameContainer .nameTxt {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.topPicture_section_nameContainer .locationTxt {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: .3rem;
+    color: rgb(115, 115, 115);
+}
+
+
+.profileOverview_section {
+    width: 100%;
+    border-bottom: 1px solid rgb(168, 168, 168);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 2rem;
+}
+
+
+.title_x_rates_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+    gap: 2rem;
+    padding-right: 2rem;
+}
+
+
+.title_x_rates_container .profileTitle {
+    font-size: 28px;
+    font-weight: 500;
+    max-width: 70%;
+    /* border: 1px solid black; */
+}
+
+.title_x_rates_container .profileRates {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.profileOverview_section .profileOverview_container {
+    padding-right: 1rem;
+    box-sizing: border-box;
+}
+
+
+.profileOverview_section .profileOverview_container p {
+    width: 100%;
+    white-space: pre-wrap; 
+    word-wrap: break-word;
+    font-size: 15px;
+}
+
+.profile_languages_section {
+    width: 100%;
+    border-bottom: 1px solid rgb(168, 168, 168);
+    padding: 2rem 1rem;
+    padding-bottom: 2rem;
+}
+
+.languages_subContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.profile_languages_section .language_Title {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+
+
+.profile_languages_section .languages_list {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+
+.profile_languages_section .languages_list .languageTxt {
+    padding: .2rem 1.5rem;
+    font-size: 13px;
+    background-color: rgba(156, 156, 156, 0.195);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: capitalize;
+}
+
+
+.dishes_catalogue_section {
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+
+.dishes_catalogue_section .catalogue_title {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.dishes_catalogue_section .catalogue_list {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1rem 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-items: flex-start;
+    gap: 2rem;
+    row-gap: 2rem;
+}
+
+
+.catalogue_container {
+    width: 100%;
+    aspect-ratio: 1.77;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    cursor: pointer;
+}
+
+
+.catalogue_container:hover .catalogue_image {
+    transform: scale(1.05);
+}
+
+.dishImage_container {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 7px;
+}
+
+.catalogue_container:hover .dishName {
+    color: #14A800;
+}
+
+.catalogue_image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease-in;
+}
+
+
+.catalogue_container .dishName {
+    width: 90%;
+    font-weight: 600;
+    transition: all 0.3s ease-in;
+}
+
+.addNewCatalogue_container {
+    width: 100%;
+    aspect-ratio: 1.77;
+    /* border: 1px solid black; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+}
+
+.addNewCatalogue_innerContainer {
+    width: 140px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: rgb(183, 183, 183);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+
+.addNewCatalogue_innerContainer:hover {
+    transform: scale(1.05);
+}
+
+
+.chefExperience_wrapper {
+    margin: 2rem;
+    border: 1px solid rgb(168, 168, 168);
+    border-radius: 10px;
+    width: 85%;
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.chefExperience_wrapper_titleSect {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 0 1.5rem;
+}
+
+.experienceTitle {
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.addExperience_icon {
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+
+.addExperience_icon:hover {
+    transform: scale(1.1);
+}
+
+.experienceContainer {
+    border-bottom: 1px solid rgb(168, 168, 168);
+    padding: 2rem 0;
+    margin: 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    position: relative;
+}
+
+.experienceContainer:nth-last-of-type(1) {
+    border: none;
+}
+
+
+.experienceContainer_topSect {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: .5rem;
+    box-sizing: border-box;
+}
+
+.experienceContainer_topSect .experienceDetails_position {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+.experienceContainer_topSect .experienceDetails_duration {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.experienceContainer_descriptionSect {
+    /* border: 1px solid black; */
+    box-sizing: border-box;
+    padding: .5rem 0;
+}
+
+.experienceContainer_descriptionSect .experienceDescription {
+    white-space: pre-wrap; 
+    word-wrap: break-word;
+    font-size: 14px;
+    width: 100%;
+}
+
+.editEmploymentSection {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+
+.experienceContainer:hover .editEmploymentSection {
+    visibility: visible;
+}
+
+.editIcon {
+    transition: all 0.3s ease-in;
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+
+.editIcon:hover {
+    transform: scale(1.3);
+}
+
+
+/* certificate section */
+
+
+
+
+.chefCertification_wrapper {
+    border: 1px solid rgb(168, 168, 168);
+    border-radius: 10px;
+    width: 85%;
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: 2rem 1rem;
+    /* padding-bottom: 0; */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+}
+
+.addToSection_container {
+    /* border: 1px solid black; */
+    padding: 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.addToSectionImg {
+    width: 200px;
+    height: max-content;
+}
+
+.addToSection_container p{
+    font-size: 15px;
+    max-width: 40%;
+    text-align: center;
+}
+
+.certificate_imageContainer {
+    /* border: 1px solid black; */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    width: 100%;
+}
+
+.certificateImage {
+    height: 200px;
+    width: max-content;
+    cursor: pointer;
+    object-fit: cover;
+    transition: all 0.3s ease-in;
+}
+
+
+.certificateImage:hover {
+    transform: scale(1.04);
+}

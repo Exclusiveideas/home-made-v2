@@ -1,0 +1,160 @@
+.menuNavWrapper {
+  position: fixed;
+  z-index: 50;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 5.2rem;
+  backdrop-filter: blur(0);
+  color: white;
+  display: none;
+}
+
+
+.menuNavWrapper.justLoaded {
+  display: none;
+}
+
+.menuNavWrapper.isClose {
+  animation: hideMenu 0.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.menuNavWrapper.isOpen {
+  display: block;
+  animation: showMenu 0.2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes hideMenu {
+  0% {
+    background-color: rgba(24, 24, 24, 0.8);
+    backdrop-filter: blur(8px) brightness(1);
+    display: block;
+  }
+
+  100% {
+    background-color: rgba(24, 24, 24, 0);
+    backdrop-filter: blur(0);
+    display: none;
+  }
+}
+
+@keyframes showMenu {
+  0% {
+    background-color: rgba(24, 24, 24, 0);
+    backdrop-filter: blur(0);
+  }
+
+  100% {
+    background-color: rgba(24, 24, 24, 0.8);
+    backdrop-filter: blur(8px) brightness(1);
+  }
+}
+
+
+
+.menuContainer {
+  min-width: 250px;
+  min-height: 200px;
+  height: max-content;
+  width: max-content;
+  padding: 1.5rem;
+  position: absolute;
+  right: .5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  opacity: 0;
+  animation-direction: reverse;
+
+  background-color: #F4F2EC;
+  border-radius: 8px;
+  box-shadow: 6px 4px 11px #00000040, inset -2px -2px 2px #00000040, inset -1px -1px .5px #00000030;
+}
+
+.menuContainer.isClose {
+  animation: fadeOut 0.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.menuContainer.isOpen {
+  animation: fadeIn 0.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    top: .3rem;
+  }
+
+  100% {
+    opacity: 0;
+    top: -3rem;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    top: -3rem;
+  }
+
+  100% {
+    opacity: 1;
+    top: .3rem;
+  }
+}
+
+
+.menuNavbar_items {
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.menuContainer.isOpen .menuItems {
+  animation: slideDown 0.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.menuContainer.isClose .menuItems {
+  animation: slideUp 0.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+
+@keyframes slideUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+
+
+
+
+@media (max-width: 768px) {
+  .menuNavWrapper {
+    display: block;
+  }
+
+}

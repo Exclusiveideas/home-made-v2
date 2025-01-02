@@ -1,0 +1,159 @@
+
+.signUpComp_wrapper {
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(216, 216, 216);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem;
+    padding-top: 4rem;
+    gap: 2rem;
+    border-radius: 10px;
+}
+
+.authTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.form_container {
+    /* border: 1px solid black; */
+    width: 100%;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.inputBox {
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    border-radius: 4px;
+    gap: .5rem;
+    padding: .3rem .7rem;
+    align-items: center;
+    border: 1px solid rgb(155, 155, 155);
+}
+
+.inputEl {
+    padding: .5rem;
+    flex: 1;
+    outline: none;
+    background-color: transparent;
+    border: none;
+    color: black;
+}
+
+.showPassword_container {
+    cursor: pointer;
+}
+
+
+
+
+.authError {
+    margin: .3rem 0;
+    color: red;
+    font-size: 10px;
+}
+
+.authError.success {
+    color: green;
+}
+
+
+
+.authBtn {
+    width: max-content;
+    padding: .8rem 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    align-self: center;
+    
+	pointer-events: auto;
+	background: var(--app-bg-color);
+	margin: 0;
+	font-family: inherit;
+	position: relative;
+	display: inline-block;
+    margin-top: 1rem;
+}
+
+button:focus-visible {
+	outline: 2px solid #443ffc;
+	outline-offset: 3px;
+}
+
+
+.button::before,
+.button::after {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.authBtn {
+	font-family: aktiv-grotesk-extended, sans-serif;
+	font-weight: 500;
+	border: 2px solid #000;
+	overflow: hidden;
+	color: #fff;
+}
+
+.authBtn span {
+	position: relative;
+	mix-blend-mode: difference;
+}
+
+.authBtn::before {
+	content: '';
+	background: #000;
+	transition: transform 0.3s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.authBtn:hover::before {
+	transform: translate3d(0,-100%,0);
+}
+
+
+.loginTxt {
+    font-size: 13px;
+    color: black;
+    cursor: pointer;
+    margin-top: auto;
+}
+
+.loginTxt span {
+    text-decoration: underline;
+}
+
+
+
+
+
+/* Mobile */
+@media (max-width: 992px) {
+    .signUpComp_wrapper {
+        padding-top: 2rem;
+    }
+    
+.authTitle {
+    font-size: 1.3rem;
+}
+}
+
+
+
+/* Mobile */
+@media (max-width: 575px) {
+
+}

@@ -1,0 +1,243 @@
+.homeSectThree_wrapper {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    box-sizing: border-box;
+    background-color: #363743;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    padding: 4rem;
+}
+
+.purpose_card {
+    width: 35%;
+    height: 90%;
+    position: relative;
+    overflow: hidden;
+}
+
+.bordered_card {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #FCFDFA;
+    z-index: 3;
+}
+
+.edge_circle {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #FCFDFA;
+    z-index: 5;
+    background-color: #363743;
+}
+
+
+.edge_circle.one {
+    top: -15px;
+    left: -15px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+
+.edge_circle.two {
+    top: -15px;
+    right: -15px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+
+.edge_circle.three {
+    bottom: -15px;
+    left: -15px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+
+.edge_circle.four {
+    bottom: -15px;
+    right: -15px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+
+.purpose_card_content_wrapper {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem;
+    padding-bottom: 3rem;
+    box-sizing: border-box;
+    color: white;
+    gap: .7rem;
+}
+
+.cardImage_wrapper {
+    height: 40%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.purpose_card_leaf {
+    height: 200px;
+    width: 110px;
+    transform: scale(.65);
+}
+
+.purpose_card_leaf.right {
+    height: 200px;
+    width: 94px;
+    transform: scale(.65);
+}
+
+
+.cardDesc_wrapper {
+    height: 40%;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 1.8rem;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.cardDesc_wrapper .card_title {
+    font-family: 'Playfair Display', 'Poppins', Georgia, sans-serif;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.cardDesc_wrapper .card_description {
+    font-family: 'Poppins', Georgia, sans-serif;
+    font-size: 14px;
+    text-align: center;
+    max-width: 80%;
+}
+
+.cardCTA_wrapper {
+    border: 1px solid white;
+    padding: .7rem 2.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', 'Poppins', Georgia, sans-serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+
+
+
+
+
+
+
+
+/* Tablets */
+@media (max-width: 992px) {
+
+    .homeSectThree_wrapper {
+        gap: 2rem;
+        padding: 4rem 1rem;
+    }
+
+
+    .purpose_card {
+        width: 50%;
+        height: 60%;
+        max-height: max-content;
+        position: relative;
+        overflow: hidden;
+    }
+
+
+    .cardDesc_wrapper .card_description {
+        line-height: 150%;
+        max-width: 90%;
+    }
+}
+
+
+
+
+
+/* Mobile */
+@media (max-width: 575px) {
+    .homeSectThree_wrapper {
+        gap: 2rem;
+        padding: 2rem;
+        flex-direction: column;
+    }
+
+
+    .purpose_card {
+        width: 75%;
+        height: 50%;
+    }
+
+
+    .purpose_card_content_wrapper {
+        padding: 1rem .5rem;
+        padding-bottom: 1.5rem;
+        gap: 1rem;
+    }
+
+    .cardImage_wrapper {
+        height: max-content;
+    }
+
+    .purpose_card_leaf {
+        height: 70px;
+        width: 40px;
+        transform: scale(1);
+    }
+
+    .purpose_card_leaf.right {
+        height: 68px;
+        width: 33px;
+        transform: scale(1);
+    }
+
+    .cardDesc_wrapper {
+        gap: 1.5rem;
+        justify-content: space-between;
+        height: max-content;
+    }
+
+    .cardDesc_wrapper .card_title {
+        font-size: 1.5rem;
+        font-weight: 500;
+        line-height: normal;
+    }
+
+
+    .cardDesc_wrapper .card_description {
+        line-height: normal;
+        max-width: 100%;
+        font-size: 11px;
+    }
+}

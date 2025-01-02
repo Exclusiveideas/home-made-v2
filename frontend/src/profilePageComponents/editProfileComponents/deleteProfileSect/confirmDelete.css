@@ -1,0 +1,132 @@
+.confirmDelete_container {
+    width: 60vw;
+    min-height: 300px;
+    background-color: var(--app-bg-color);
+
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 2rem 1rem;
+    color: black;
+    gap: 2.5rem;
+    position: relative;
+}
+
+
+.confirmDeleteTitle {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+
+.confirm_cancel_btnContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.confirmDelete_container p {
+    width: 80%;
+    text-align: center;
+}
+
+.editProfileBtn {
+    width: max-content;
+    padding: .8rem 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    font-size: 15px;
+    cursor: pointer;
+    align-self: center;
+
+    pointer-events: auto;
+    background: var(--app-bg-color);
+    margin: 0;
+    font-family: inherit;
+    position: relative;
+    display: inline-block;
+    margin-top: 1rem;
+}
+
+button:focus-visible {
+    outline: 2px solid #443ffc;
+    outline-offset: 3px;
+}
+
+
+.button::before,
+.button::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.editProfileBtn {
+    font-family: aktiv-grotesk-extended, sans-serif;
+    font-weight: 500;
+    border: 2px solid #000;
+    overflow: hidden;
+    color: #fff;
+}
+
+.editProfileBtn span {
+    position: relative;
+    mix-blend-mode: difference;
+}
+
+.editProfileBtn::before {
+    content: '';
+    background: #000;
+    transition: transform 0.3s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.editProfileBtn:hover::before {
+    transform: translate3d(0, -100%, 0);
+}
+
+
+
+
+/* Mobile */
+@media (max-width: 992px) {
+
+
+    .confirmDelete_container {
+        width: 80vw;
+    }
+
+    .confirmDelete_container p {
+        font-size: 15px;
+    }
+}
+
+
+/* Mobile */
+@media (max-width: 575px) {
+
+    .confirmDelete_container {
+        width: 90vw;
+        min-height: 200px;
+        padding: 1.5rem 1rem;
+        color: black;
+        gap: 1.5rem;
+    }
+
+    .confirmDelete_container p {
+        font-size: 12px;
+        width: 95%;
+    }
+
+
+    .confirmDeleteTitle {
+        font-size: 20px;
+        font-weight: 600;
+    }
+}
