@@ -85,8 +85,6 @@ router.get('/fetch', async (req, res) => {
         : chatRoom.participants.memberA;
       const lastMessage = chatRoom.messages[0] || null;
 
-      console.log('last memssage: ', lastMessage)
-
       return {
         _id: chatRoom._id,
         secondMember: {
