@@ -58,46 +58,54 @@ router.get('/', async (req, res) => {
 
 // Fetch User's Chatroom Details
 router.get('/fetch', async (req, res) => {
-    const { userID } = req.query;
-  
-    try {
-      // Find all chatrooms where the user is a participant
-      const chatRooms = await ChatRoomModel.find({
-        $or: [
-          { "participants.memberA": userID },
-          { "participants.memberB": userID }
-        ]
-      })
-        .populate({
-          path: 'messages',
-          options: { sort: { createdAt: -1 }, limit: 1 } // Get the last message
-        });
-  
+  const { userID } = req.query;
 
-      // Format the response
-      const response = chatRooms.map(chatRoom => {
-        const isMemberA = chatRoom.participants.memberA === userID;
-        const secondMember = isMemberA ? chatRoom.participants.memberB : chatRoom.participants.memberA;
-        const lastMessage = chatRoom.messages[0] || null;
-  
-        return {
-          _id: chatRoom._id,
-          secondMember: {
-            name: secondMember.name,
-            image: secondMember.profilePic 
-          },
-          lastMessage: lastMessage
-            ? { message: lastMessage.content, timeCreated: lastMessage.createdAt }
-            : { message: 'Tap to message', timeCreated: '' }
-        };
+  try {
+    // Find all chatrooms where the user is a participant
+    const chatRooms = await ChatRoomModel.find({
+      $or: [
+        { "participants.memberA": userID },
+        { "participants.memberB": userID }
+      ]
+    })
+      .populate({
+        path: 'participants.memberA participants.memberB', // Populate both members
+        select: 'name profilePic' // Select only the necessary fields
+      })
+      .populate({
+        path: 'messages',
+        options: { sort: { createdAt: -1 }, limit: 1 } // Get the last message
       });
-  
-      res.status(200).json(response);
-  
-    } catch (err) {
-      res.status(500).json({ message: "Error fetching chatrooms", error: err.message });
-    }
-  });
+
+    // Format the response
+    const response = chatRooms.map(chatRoom => {
+      const isMemberA = chatRoom.participants.memberA._id.toString() === userID;
+      const secondMember = isMemberA
+        ? chatRoom.participants.memberB
+        : chatRoom.participants.memberA;
+      const lastMessage = chatRoom.messages[0] || null;
+
+      console.log('last memssage: ', lastMessage)
+
+      return {
+        _id: chatRoom._id,
+        secondMember: {
+          name: secondMember.name,
+          image: secondMember.profilePic
+        },
+        lastMessage: lastMessage
+          ? { message: lastMessage.message, timeCreated: lastMessage.time }
+          : { message: 'Tap to message', timeCreated: '' }
+      };
+    });
+
+    res.status(200).json(response);
+
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching chatrooms", error: err.message });
+  }
+});
+
 
 
 module.exports = router;

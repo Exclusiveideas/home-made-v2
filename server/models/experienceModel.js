@@ -26,7 +26,10 @@ const ExperienceSchema = new mongoose.Schema({
     ref: 'User', // Reference to the userModel
     required: true,
   }
-});
+},
+{ timestamps: true }
+);
+
 
 const ExperienceModel = mongoose.model('Experience', ExperienceSchema);
 

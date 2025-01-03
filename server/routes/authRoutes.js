@@ -37,7 +37,7 @@ router.post("/signup", async (req, res) => {
 
 //LOGIN
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body; //why is password unused?
+  const { email, password: loginPassword } = req.body; //why is password unused?
 
   try {
     const user = await UserModel.findOne({ email });
@@ -48,7 +48,7 @@ router.post("/login", async (req, res) => {
     }
 
     // Compare the provided password with the stored hashed password
-    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    const isPasswordCorrect = await bcrypt.compare(loginPassword, user.password);
     if (!isPasswordCorrect) {
       return res.status(401).json({ message: "Incorrect password" });
     }

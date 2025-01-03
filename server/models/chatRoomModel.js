@@ -18,7 +18,10 @@ const ChatRoomSchema = new mongoose.Schema({
     ref: "Message", // Reference to the messageModel
     default: [],
   },
-});
+},
+{ timestamps: true }
+);
+
 
 const ChatRoomModel = mongoose.model("ChatRoom", ChatRoomSchema);
 

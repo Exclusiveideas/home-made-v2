@@ -7,8 +7,8 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: true, trim: true }, // a value is required upon creation
     role: {
       type: String,
-      enum: ["chef", "client"], // Allowed values
-      default: "client", // Default value if none is provided
+      enum: ["chef", "client", ""], // Allowed values
+      default: "", // Default value 
       trim: true,
     },
     languages: { type: String, default: "" },

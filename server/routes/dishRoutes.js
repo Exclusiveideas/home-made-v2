@@ -1,28 +1,49 @@
 const router = require("express").Router();
-const { DishModel } = require("../models");
+const { DishModel, UserModel } = require("../models");
 
 // Create Dish
 router.post("/create", async (req, res) => {
-    const { name, description, images, chef } = req.body;
-  
-    if (!name || !description || !images || !chef) {
-      return res.status(400).json({ message: "All fields are required" });
+  const { name, description, images, chef } = req.body;
+
+  // Check if all required fields are provided
+  if (!name || !description || !images || !chef) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    // Create the new dish
+    const newDish = new DishModel({
+      name,
+      description,
+      images,
+      chef,
+    });
+
+    // Save the dish to the database
+    const savedDish = await newDish.save();
+
+    // Add the dish ID to the user's profile
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      chef, // User ID (assuming `chef` is the user ID)
+      { $push: { dishCatalogue: savedDish._id } }, // Add the dish ID to the dishes array
+      { new: true } // Return the updated user document
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
     }
-  
-    try {
-      const newDish = new DishModel({
-        name,
-        description,
-        images,
-        chef
-      });
-  
-      const savedDish = await newDish.save();
-      res.status(201).json(savedDish);  // Return the created dish
-    } catch (err) {
-      res.status(500).json({ message: "Error creating dish", error: err.message });
-    }
-  });
+
+    // Return the created dish and updated user
+    res.status(201).json({
+      message: "Dish created and added to user profile successfully",
+      dish: savedDish,
+      user: updatedUser,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Error creating dish", error: err.message });
+  }
+});
+
   
 
 //  Fetch all dishes
@@ -69,33 +90,54 @@ router.put("/update", async (req, res) => {
 
 // Delete a dish
 router.delete("/delete", async (req, res) => {
-    const { dishID } = req.query;
-    const { chef } = req.body;  
-  
-    if (!dishID) {
-      return res.status(400).json({ message: "Dish ID is required" });
+  const { dishID } = req.query;
+  const { chef } = req.body; // Logged-in chef (user ID)
+
+  // Validate input
+  if (!dishID) {
+    return res.status(400).json({ message: "Dish ID is required" });
+  }
+
+  try {
+    // Find the dish by ID
+    const dish = await DishModel.findById(dishID);
+
+    // Check if the dish exists
+    if (!dish) {
+      return res.status(404).json({ message: "Dish not found" });
     }
-  
-    try {
-        const dish = await DishModel.findById(dishID);
-      
-        if (!dish) {
-          return res.status(404).json({ message: "Dish not found" });
-        }
-      
-        if (dish.chef.toString() !== chef) {
-          return res.status(403).json({ message: "You are not authorized to delete this dish" });
-        }
-        
-        const deletedDish = await DishModel.findByIdAndDelete(dishID);
-      
-        res.status(200).json({ message: "Dish deleted successfully" });
-      
-      } catch (err) {
-        res.status(500).json({ message: "Error deleting dish", error: err.message });
-      }
-      
-  });
+
+    // Ensure the logged-in chef owns the dish
+    if (dish.chef.toString() !== chef) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to delete this dish" });
+    }
+
+    // Delete the dish
+    await DishModel.findByIdAndDelete(dishID);
+
+    // Remove the dish ID from the user's dishCatalogue array
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      chef, // User ID (assuming chef is the user ID)
+      { $pull: { dishCatalogue: dishID } }, // Remove the dish ID from the array
+      { new: true } // Return the updated user document
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Return success message
+    res.status(200).json({
+      message: "Dish deleted successfully and removed from user's catalogue",
+      user: updatedUser,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Error deleting dish", error: err.message });
+  }
+});
+
 
 
 module.exports = router;

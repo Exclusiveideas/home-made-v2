@@ -1,10 +1,9 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require("cors");
 const dotenv = require("dotenv");
-const { connectDB } = require('./lib/db.js');
+const connectDB = require('./lib/db.js');
 
-const authRoutes = require("./routes/auth.js");
+const authRoutes = require("./routes/authRoutes.js");
 const profileRoutes = require("./routes/profileRoutes.js");
 const chefsRoutes = require("./routes/chefsRoutes.js");
 const dishRoutes = require("./routes/dishRoutes.js");

@@ -27,7 +27,6 @@ router.get("/", async (req, res) => {
 });
 
 
-
 // Update Profile
 router.put("/update", async (req, res) => {
     const { _id: userID } = req.body;
@@ -38,9 +37,9 @@ router.put("/update", async (req, res) => {
 
     try {
         
-        const { name, email, languages, location, position, profilePic, dishCatalogue, experiences, certifications, chats } = req.body;
+        const { name, email, languages, location, position, profilePic, dishCatalogue, experiences, certifications, chats, role } = req.body;
 
-        const updatedData = { name, email, languages, location, position, profilePic, dishCatalogue, experiences, certifications, chats };
+        const updatedData = { name, email, languages, location, position, profilePic, dishCatalogue, experiences, certifications, chats, role };
 
         // Find the user by userID and update the user's profile with the updated data
         const updatedUser = await UserModel.findOneAndUpdate(

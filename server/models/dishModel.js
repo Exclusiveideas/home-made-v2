@@ -18,7 +18,10 @@ const DishSchema = new mongoose.Schema({
     ref: 'User', // Reference to the userModel
     required: true,
   }
-});
+},
+{ timestamps: true }
+);
+
 
 const DishModel = mongoose.model('Dish', DishSchema);
 

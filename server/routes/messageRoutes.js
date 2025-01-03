@@ -4,7 +4,13 @@ const { MessageModel, ChatRoomModel } = require("../models");
 
 // Create a Message
 router.post('/create', async (req, res) => {
-    const { senderID, member, chatRoomID } = req.body; // time is replace with createdAt
+    const { senderID, message, time, chatRoomID } = req.body; // time is replace with createdAt
+
+    
+  // Check if all required fields are provided
+  if (!senderID || !message || !time || !chatRoomID) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
   
     try {
       // Check if the chatroom exists
@@ -17,7 +23,8 @@ router.post('/create', async (req, res) => {
       // Create a new message
       const newMessage = new MessageModel({
         senderID,
-        member,
+        message,
+        time,
         chatRoomID
       });
   

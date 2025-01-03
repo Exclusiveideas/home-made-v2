@@ -22,7 +22,10 @@ const CertificationSchema = new mongoose.Schema({
     ref: 'User', // Reference to the userModel
     required: true,
   }
-});
+},
+{ timestamps: true }
+);
+
 
 const CertificationModel = mongoose.model('Certification', CertificationSchema);
 
