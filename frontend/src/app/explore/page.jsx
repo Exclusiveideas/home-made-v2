@@ -9,7 +9,6 @@ import useProfilePageStore from "@/store/profilePageStore";
 import { getAllDish } from "@/api";
 import SnackbarComponent from "../components/snackbarComponent";
 import BrowsePageSkeleton from "../components/browsePageSkeleton";
-import { exploreDishesRes } from '../../utils/constants';
 import MenuNav from "../components/menuNav";
 
 
@@ -43,12 +42,13 @@ const ExploreDishesPage = () => {
   const applyFilter = () => {
     if(!searchFilter?.dishName) {
       setDishesFilterResult(allDish)
+      setNoSearch(false)
       return
     }
 
     let filterRes = allDish
 
-    if(searchFilter?.dishName) filterRes = filterRes.filter((dishRes) => dishRes?.name.toLowerCase().includes(searchFilter?.dishName.toLowerCase()));
+    if(searchFilter?.dishName) filterRes = filterRes.filter((dishRes) => dishRes?.name?.toLowerCase().includes(searchFilter?.dishName?.toLowerCase()));
     
     if(!filterRes[0]) {
       setNoSearch(true)
@@ -76,13 +76,8 @@ const ExploreDishesPage = () => {
       setDishesFilterResult(fetchResult?.allDish)
       setShowSkeleton(false)
     } else{
-      // callEnqueueSnackbar(fetchResult?.errorMessage, "error");
-      // setShowSkeleton(true)
-      // callEnqueueSnackbar(fetchResult?.errorMessage, "error");
-      // setShowSkeleton(true)
-      setShowSkeleton(false)
-      setAllDish(exploreDishesRes)
-      setDishesFilterResult(exploreDishesRes)
+      callEnqueueSnackbar(fetchResult?.errorMessage, "error");
+      setShowSkeleton(true)
     }
   }
 

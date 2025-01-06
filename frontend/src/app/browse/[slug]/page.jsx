@@ -11,17 +11,24 @@ import ExpandedDishDetails from '@/explorePageComponents/expandedDishDetails';
 import { useEffect, useRef, useState } from "react";
 import SnackbarComponent from "@/app/components/snackbarComponent";
 import { useRouter, usePathname } from 'next/navigation';
-import { getUserProfile, createChatRoom } from "@/api";
+import { getUserProfile, createChatRoom, getOneCertification, getOneExperience, getOneDish } from "@/api";
 import { calculateDistanceApart } from '@/utils/functions';
 import useChatStore from "@/store/userChatStore";
 import ProfilePageSkeleton from "@/profilePageComponents/ProfilePageSkeleton";
 import MenuNav from '../../components/menuNav';
+import { CircularProgress } from "@mui/material";
 
 
 
 const BrowseChefProfile = () => {
   const [chefDetails, setChefDetails] = useState({})
   const [distanceApart, setDistanceApart] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [chefLists, setChefLists] = useState({
+    dishCatalogue: [],
+    experiences: [],
+    certifications: []
+  })
 
 
   const userInfo = useAuthStore((state) => state.user);
@@ -46,6 +53,7 @@ const BrowseChefProfile = () => {
     if(!userInfo?._id) {
       callEnqueueSnackbar('Create an account to chat', 'info')
     } else {
+      setLoading(true)
       goToChatRoom();
     }
   }
@@ -58,9 +66,11 @@ const BrowseChefProfile = () => {
 
     if(chatRoomDetails?.status == 200) {
       setActiveChatRoomID(chatRoomDetails?.newChatRoom?._id)
+      setLoading(false)
       router.push('/chats')
     } else {
       callEnqueueSnackbar(chatRoomDetails?.errorMessage, "error");
+      setLoading(false)
     }
 
   }
@@ -78,14 +88,20 @@ const BrowseChefProfile = () => {
       router.push('/browse')
     }
     fetchChef() 
-  }, [])
+  }, [userID])
+
+  useEffect(() => {
+    // calc distance away
+    if(!userInfo?.position  || !chefDetails?.position) return
+
+     userInfo?.position && setDistanceApart(calculateDistanceApart(userInfo?.position, chefDetails?.position))
+  }, [userInfo, chefDetails])
   
   const fetchChef = async () => {
     const chefProfileDetails = await getUserProfile(userID);
 
     if (chefProfileDetails?.status == 200) {
       setChefDetails(chefProfileDetails?.userProfile);
-      setDistanceApart(calculateDistanceApart(userInfo?.position, chefProfileDetails?.position))
     } else {
       callEnqueueSnackbar(chefProfileDetails?.errorMessage, "error");
       setTimeout(() => {
@@ -100,7 +116,81 @@ const BrowseChefProfile = () => {
     }
   }, [enqueueSnack])
 
-  return (
+  
+  useEffect(() => {
+    fetchChefLists()
+  }, [chefDetails])
+
+  const fetchChefLists = () => {
+    chefDetails?.dishCatalogue?.forEach(dishID => {
+      fetchDish(dishID)
+    });
+    chefDetails?.experiences?.forEach(experienceID => {
+      fetchExperience(experienceID)
+    });
+    chefDetails?.certifications?.forEach(certificationID => {
+      fetchCertification(certificationID)
+    });
+  }
+
+  const fetchDish = async (dishID) => {
+    const dishDetails = await getOneDish(dishID);
+
+    if (dishDetails?.status == 200) {
+      setChefLists((prev) => ({
+        ...prev,
+        dishCatalogue: prev.dishCatalogue
+          ? prev.dishCatalogue.some((dish) => dish?._id === dishDetails?.fetchedDish?._id)
+            ? prev.dishCatalogue.map((dish) =>
+                dish._id === dishDetails?.fetchedDish?._id ? dishDetails?.fetchedDish : dish
+              ) // Update the dish if it exists
+            : [...prev.dishCatalogue, dishDetails?.fetchedDish] // Add the new dish if it doesn't exist
+          : [dishDetails?.fetchedDish], // If `dishCatalogue` doesn't exist, create it with the new dish
+      }));
+    } else {
+      callEnqueueSnackbar(dishDetails?.errorMessage, "error" )
+    }
+  };
+
+  const fetchExperience = async(experienceID) => {
+    const experienceDetails = await getOneExperience(experienceID);
+
+    if (experienceDetails?.status == 200) {
+      setChefLists((prev) => ({
+        ...prev,
+        experiences: prev.experiences
+          ? prev.experiences.some((experience) => experience?._id === experienceDetails?.fetchedExperience?._id)
+            ? prev.experiences.map((experience) =>
+              experience._id === experienceDetails?.fetchedExperience?._id ? experienceDetails?.fetchedExperience : experience
+              ) // Update the experience if it exists
+            : [...prev.experiences, experienceDetails?.fetchedExperience] // Add the new experience if it doesn't exist
+          : [experienceDetails?.fetchedExperience], // If `experiences` doesn't exist, create it with the new experience
+      }));
+    } else {
+      callEnqueueSnackbar(experienceDetails?.errorMessage, "error" )
+    }
+  }
+
+  const fetchCertification = async(certificationID) => {
+    const certificationDetails = await getOneCertification(certificationID);
+
+    if (certificationDetails?.status == 200) {
+      setChefLists((prev) => ({
+        ...prev,
+        certifications: prev.certifications
+          ? prev.certifications.some((experience) => experience?._id === certificationDetails?.fetchedCertification?._id)
+            ? prev.certifications.map((experience) =>
+              experience._id === certificationDetails?.fetchedCertification?._id ? certificationDetails?.fetchedCertification : experience
+              ) // Update the certification if it exists
+            : [...prev.certifications, certificationDetails?.fetchedCertification] // Add the new certification if it doesn't exist
+          : [certificationDetails?.fetchedCertification], // If `certifications` doesn't exist, create it with the new experience
+      }));
+    } else {
+      callEnqueueSnackbar(certificationDetails?.errorMessage, "error" )
+    }
+  }
+
+  return ( 
     <div className="browseChefProfile">
       <Navbar />
       {chefDetails?.name ? (
@@ -126,18 +216,24 @@ const BrowseChefProfile = () => {
                   <p className="locationTxt">
                     <LocationOnOutlinedIcon sx={{ fontSize: 20 }} />
                     <span>
-                      {chefDetails?.location}({distanceApart}km away)
+                      {chefDetails?.location}({distanceApart  || '___'} km away)
                     </span>
                   </p>
                 </div>
               </div>
               <div className="topPicture_section_rightSection">
-                <button
-                  className="button chatBtn profilePage"
-                  onClick={handleChatBtnClick}
-                >
-                  <span>Chat</span>
-                </button>
+                {userID !== userInfo?._id && (
+                  <button
+                    className="button chatBtn profilePage"
+                    onClick={handleChatBtnClick}
+                  >
+                    {!loading ? (
+                      <span>Chat</span>
+                    ) : (
+                      <CircularProgress size={20} />
+                    )}
+                  </button>
+                )}
               </div>
             </div>
             <div className="profileOverview_section">
@@ -166,7 +262,7 @@ const BrowseChefProfile = () => {
             <div className="dishes_catalogue_section">
               <h3 className="catalogue_title">Dishes Catalogue</h3>
               <div className="catalogue_list">
-                {chefDetails?.dishCatalogue?.map((catalogue, i) => (
+                {chefLists?.dishCatalogue?.map((catalogue, i) => (
                   <div
                     key={i}
                     className="catalogue_container"
@@ -175,8 +271,8 @@ const BrowseChefProfile = () => {
                     <div className="dishImage_container">
                       <Image
                         src={
-                          catalogue.images[0]
-                            ? catalogue.images[0]
+                          catalogue?.images[0]
+                            ? catalogue?.images[0]
                             : `/images/catalogue_one.jpg`
                         }
                         width={500}
@@ -196,7 +292,7 @@ const BrowseChefProfile = () => {
               <h3 className="experienceTitle">Employment history</h3>
             </div>
             <>
-              {chefDetails?.experiences?.map((experience, i) => (
+              {chefLists?.experiences?.map((experience, i) => (
                 <div key={i} className="experienceContainer">
                   <div className="experienceContainer_topSect">
                     <h4 className="experienceDetails_position">
@@ -220,7 +316,7 @@ const BrowseChefProfile = () => {
               <h3 className="experienceTitle">Certifications</h3>
             </div>
             <>
-              {chefDetails?.certifications?.map((certification, i) => (
+              {chefLists?.certifications?.map((certification, i) => (
                 <div key={i} className="experienceContainer">
                   <div className="experienceContainer_topSect">
                     <h4 className="experienceDetails_position">

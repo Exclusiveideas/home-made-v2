@@ -2,17 +2,17 @@
 
 import "./chatsPage.css";
 import Navbar from "@/app/components/navbar";
-import { sampleMessages, sampleRooms } from "@/utils/constants";
 import Image from "next/image";
 import SendIcon from "@mui/icons-material/Send";
 import useAuthStore from "@/store/authStore";
 import useChatStore from "@/store/userChatStore";
 import { useEffect, useRef, useState } from "react";
 import SnackbarComponent from "@/app/components/snackbarComponent";
-import { createMessage, fetchUserChatRooms } from "@/api";
+import { createMessage, fetchChatRoomDetails, fetchUserChatRooms } from "@/api";
 import { Skeleton } from "@mui/material";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
 import MenuNav from "../components/menuNav";
+import { getCurrentTime } from "@/utils/functions";
 
 const ChatsPage = () => {
   const userInfo = useAuthStore((state) => state.user);
@@ -23,7 +23,7 @@ const ChatsPage = () => {
 
   const [inputMessage, setInputMessage] = useState("");
   const [inputFocus, setInputFocus] = useState(false);
-  const [activeRoomChats, setActiveRoomChats] = useState(null);
+  const [activeRoomMessages, setActiveRoomMessages] = useState(null);
   const [allChatRooms, setAllChatRooms] = useState(null);
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [openAllChats, setOpenAllChats] = useState(false);
@@ -46,28 +46,34 @@ const ChatsPage = () => {
       senderID: userInfo?._id,
       chatRoomID: activeChatRoomID,
     });
+
     if (sendMssgResponse?.status == 500) {
       callEnqueueSnackbar(sendMssgResponse?.errorMessage, "error");
     } else {
+      setActiveRoomMessages(prev => ([...prev, {
+        message: inputMessage,
+        senderID: userInfo?._id,
+        chatRoomID: activeChatRoomID,
+        time: getCurrentTime()
+      }]))
       setInputMessage("");
     }
   };
 
   useEffect(() => {
+    if(!userInfo?._id) return
     fetchChatRooms();
-  }, []);
+  }, [userInfo]);
 
   const fetchChatRooms = async () => {
-    const fetchRoomsResponse = await fetchUserChatRooms();
+    const fetchRoomsResponse = await fetchUserChatRooms(userInfo?._id);
 
     if (fetchRoomsResponse?.status == 200) {
       setShowSkeleton(false);
       setAllChatRooms(fetchRoomsResponse?.allChatRooms);
     } else {
       callEnqueueSnackbar(fetchRoomsResponse?.errorMessage, "error");
-      // setShowSkeleton(true)
-      setShowSkeleton(false);
-      setAllChatRooms(sampleRooms);
+      setShowSkeleton(true)
     }
   };
 
@@ -75,22 +81,46 @@ const ChatsPage = () => {
     if (!activeChatRoomID) return;
 
     // function to fetch Room chats
-
-    setActiveRoomChats([...sampleMessages]);
+    fetchActiveRoomMessages()
   }, [activeChatRoomID]);
 
   useEffect(() => {
-    if (!activeRoomChats || !chatMessagesWrapperRef.current) return;
+    if (!activeRoomMessages || !chatMessagesWrapperRef.current) return;
 
     chatMessagesWrapperRef.current.scrollTo({
       top: chatMessagesWrapperRef.current.scrollHeight,
-      behavior: "smooth",
     });
-  }, [activeRoomChats]);
+  }, [activeRoomMessages]);
+
+  const fetchActiveRoomMessages = async() => {
+    const fetchResponse = await fetchChatRoomDetails(activeChatRoomID);
+
+    if (fetchResponse?.status == 200) {
+      setShowSkeleton(false);
+
+      setActiveRoomMessages(fetchResponse?.chatRoomDetails);
+    } else {
+      callEnqueueSnackbar(fetchResponse?.errorMessage, "error");
+      setShowSkeleton(true)
+    }
+  }
 
   const toggleOpenAllChats = () => {
     setOpenAllChats((prev) => !prev);
   };
+
+  useEffect(() => {
+    // the messages every minutes
+    // will implement real-time messaging in a later version
+    if(!activeChatRoomID) return
+
+    const intervalId = setInterval(() => {
+      fetchActiveRoomMessages();
+    }, 60000); // 
+
+    // Cleanup
+    return () => clearInterval(intervalId);
+  }, [activeChatRoomID, fetchActiveRoomMessages]);
 
   return (
     <div className="chatsPage">
@@ -154,80 +184,71 @@ const ChatsPage = () => {
                 ))}
           </div>
         </div>
-        {activeRoomChats && (
-          <div className="activeChat_container">
-            <div className="chatPage_bg_wrapper">
+        <div className="activeChat_container" onMouseEnter={() => setInputFocus(true)} onMouseLeave={() => setInputFocus(false)}>
+          {!showSkeleton ? (
+            <div
+              className={`tapToMesgContainer ${activeRoomMessages && "hide"}`}
+            >
               <Image
-                src={`/images/chatPage_bg.png`}
-                width={1000}
-                height={1000}
+                src={`/images/bubble-chat.png`}
+                width={200}
+                height={200}
                 alt="chef drawing"
-                className={`chatPage_bg`}
+                className={`selectMessage_Icon ${activeRoomMessages && "hide"}`}
               />
             </div>
+          ) : (
             <div
-              ref={chatMessagesWrapperRef}
-              className="chatMessages_container"
+              className={`tapToMesgContainer ${activeRoomMessages && "hide"}`}
             >
-              {activeRoomChats?.map((message, i) => (
-                <div
-                  key={i}
-                  className={`messageContainer ${
-                    message?.sender?._id == userInfo?._id && "selfSent"
-                  }`}
-                >
-                  <p className="messagetxt">{message?.message}</p>
-                  <p className="time">1:04 p.m</p>
-                </div>
-              ))}
-            </div>
-            <div className="sendChat_container">
-              <div className="chat_innerWrapper">
-                <div className="chat_inputBox">
-                  <textarea
-                    id="description-overview"
-                    name="descriptionOverview"
-                    placeholder="Message"
-                    rows={inputFocus ? "8" : "1"}
-                    className="inputEl chatMessage"
-                    onFocus={() => setInputFocus(true)}
-                    onBlur={() => setInputFocus(false)}
-                    value={inputMessage}
-                    onChange={(e) => setInputMessage(e.target.value)}
-                  ></textarea>
-                </div>
-              </div>
-              <div className="sendBtn" onClick={sendMessage}>
-                <SendIcon sx={{ fontSize: 18 }} className="sendMessageIcon" />
-              </div>
-            </div>
-          </div>
-        )}
-        {!activeRoomChats && (
-          <>
-            {!showSkeleton ? (
-              <div
-                className={`activeChat_container ${
-                  !activeChatRoomID && "selectChat"
-                }`}
-              >
-                <Image
-                  src={`/images/bubble-chat.png`}
-                  width={200}
-                  height={200}
-                  alt="chef drawing"
-                  className={`selectMessage_Icon`}
-                />
-              </div>
-            ) : (
               <Skeleton
                 variant="rounded"
                 animation="wave"
                 style={{ width: "100%", height: "100%" }}
               />
-            )}
-          </>
-        )}
+            </div>
+          )}
+          <div className="chatPage_bg_wrapper">
+            <Image
+              src={`/images/chatPage_bg.png`}
+              width={1000}
+              height={1000}
+              alt="chef drawing"
+              className={`chatPage_bg`}
+            />
+          </div>
+          <div ref={chatMessagesWrapperRef} className="chatMessages_container">
+            {activeRoomMessages?.map((message, i) => (
+              <div
+                key={i}
+                className={`messageContainer ${
+                  message?.senderID == userInfo?._id && "selfSent"
+                }`}
+              >
+                <p className="messageText">{message?.message}</p>
+                <p className="time">{message?.time}</p>
+              </div>
+            ))}
+          </div>
+          <div className="sendChat_container">
+            <div className="chat_innerWrapper">
+              <div className="chat_inputBox">
+                <textarea
+                  id="description-overview"
+                  name="descriptionOverview"
+                  placeholder="Message"
+                  rows={inputFocus ? "8" : "1"}
+                  className="inputEl chatMessage"
+                  value={inputMessage}
+                  onChange={(e) => setInputMessage(e.target.value)}
+                ></textarea>
+              </div>
+            </div>
+            <div className="sendBtn" onClick={sendMessage}>
+              <SendIcon sx={{ fontSize: 18 }} className="sendMessageIcon" />
+            </div>
+          </div>
+        </div>
       </div>
       <MenuNav />
       <SnackbarComponent ref={enqueueFuncRef} />

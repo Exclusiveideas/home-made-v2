@@ -9,6 +9,8 @@ import { getAllChefs } from "@/api";
 import SnackbarComponent from "../components/snackbarComponent";
 import BrowsePageSkeleton from "../components/browsePageSkeleton";
 import MenuNav from "../components/menuNav";
+import useAuthStore from "@/store/authStore";
+import { calculateDistanceApart } from "@/utils/functions";
 
 
 
@@ -25,6 +27,7 @@ const BrowseChefPage = () => {
   const [noSearch, setNoSearch] = useState(false);
 
   
+  const userInfo = useAuthStore((state) => state.user);
   const enqueueFuncRef = useRef();
 
   const handleInputChange = (key, value) => {
@@ -35,14 +38,15 @@ const BrowseChefPage = () => {
 
     if(!searchFilter?.location && !searchFilter?.chefName) {
       setchefFilterResult(allChefs)
+      setNoSearch(false)
       return
     }
 
     let filterRes = allChefs
 
 
-    if(searchFilter?.location) filterRes = filterRes.filter((chefRes) => chefRes?.location.toLowerCase().includes(searchFilter?.location.toLowerCase()))
-    if(searchFilter?.chefName) filterRes = filterRes.filter((chefRes) => chefRes?.chefName.toLowerCase().includes(searchFilter?.chefName.toLowerCase()));
+    if(searchFilter?.location) filterRes = filterRes.filter((chefRes) => chefRes?.location?.toLowerCase().includes(searchFilter?.location.toLowerCase()))
+    if(searchFilter?.chefName) filterRes = filterRes.filter((chefRes) => chefRes?.name?.toLowerCase().includes(searchFilter?.chefName.toLowerCase()));
 
     if(!filterRes[0]) {
       setNoSearch(true)
@@ -137,11 +141,11 @@ const BrowseChefPage = () => {
                 />
               </div>
               <div className="searchRes_DetailsBox">
-                <h3 className="chefName">{res?.chefName}</h3>
+                <h3 className="chefName">{res?.name}</h3>
                 <p className="chefTitle">{res?.title.length > 60 ? res?.title.slice(0, 60) + '...' : res?.title}</p>
                 <div className="locationContainer">
                   <p>{res?.location}</p>
-                  <p className="distanceAway">(10km away)</p>
+                  <p className="distanceAway">({calculateDistanceApart(userInfo?.position, res?.position) || '__'} away)</p>
                 </div>
               </div>
             </div>

@@ -8,8 +8,10 @@ import { useEffect, useState } from "react";
 import { createCertification, createDish, createEmployment } from "@/api";
 import useAuthStore from "@/store/authStore";
 import { refreshUser, uploadImage } from "@/utils/functions";
+import { CircularProgress } from "@mui/material";
 
 const addNewSect = () => {
+  const [isCreating, setIsCreating] = useState(false)
   const addSection = useProfilePageStore((state) => state.addSection);
   const setAddSection = useProfilePageStore((state) => state.setAddSection);
 
@@ -18,6 +20,9 @@ const addNewSect = () => {
 
 
   const handleClose = () => {
+    if(isCreating) {
+      return
+    }
     setAddSection("");
   };
 
@@ -37,6 +42,8 @@ const addNewSect = () => {
             userInfo={userInfo}
             updateUser={updateUser}
             handleClose={handleClose}
+            setIsCreating={setIsCreating}
+            isCreating={isCreating}
           />
         )}
         {addSection == "employment" && (
@@ -44,6 +51,8 @@ const addNewSect = () => {
             userInfo={userInfo}
             updateUser={updateUser}
             handleClose={handleClose}
+            setIsCreating={setIsCreating}
+            isCreating={isCreating}
           />
         )}
         {addSection == "certifications" && (
@@ -51,6 +60,8 @@ const addNewSect = () => {
             userInfo={userInfo}
             updateUser={updateUser}
             handleClose={handleClose}
+            setIsCreating={setIsCreating}
+            isCreating={isCreating}
           />
         )}
       </div>
@@ -65,11 +76,12 @@ const AddDishComp = ({
   userInfo,
   updateUser,
   handleClose,
+  setIsCreating,
+  isCreating
 }) => {
   const [dishName, setDishName] = useState("");
   const [dishDesc, setDishDesc] = useState("");
   const [dishImages, setDishImages] = useState([]);
-  const [isCreatingDish, setIsCreatingDish] = useState(false);
 
   const setEnqueueSnack = useProfilePageStore((state) => state.setEnqueueSnack);
 
@@ -85,7 +97,7 @@ const AddDishComp = ({
 
     const createDishResponse = await createNewDishFunc();
 
-    setIsCreatingDish(false);
+    setIsCreating(false);
     if (createDishResponse?.status == 500) {
       setEnqueueSnack({ message: createDishResponse?.errorMessage, type: "error" });
       return;
@@ -99,7 +111,7 @@ const AddDishComp = ({
   };
 
   const createNewDishFunc = async () => {
-    setIsCreatingDish(true);
+    setIsCreating(true);
 
     const firstThreeImages = dishImages.slice(0, 3);
 
@@ -192,11 +204,11 @@ const AddDishComp = ({
           )}
         </div>
         <button
-          disabled={isCreatingDish}
+          disabled={isCreating}
           type="submit"
           className="button editProfileBtn"
         >
-          <span>Add</span>
+          {!isCreating ? <span>Add</span> : <CircularProgress size={20} />}
         </button>
       </form>
     </>
@@ -208,6 +220,8 @@ export const AddEmploymentComp = ({
   userInfo,
   updateUser,
   handleClose,
+  setIsCreating,
+  isCreating
 }) => {
   const [positionHeld, setPositionHeld] = useState("");
   const [companyName, setCompanyName] = useState("");
@@ -216,7 +230,6 @@ export const AddEmploymentComp = ({
     from: "",
     to: "",
   });
-  const [isCreating, setIsCreating] = useState(false);
 
   const setEnqueueSnack = useProfilePageStore((state) => state.setEnqueueSnack);
 
@@ -233,8 +246,7 @@ export const AddEmploymentComp = ({
       setEnqueueSnack({ message: `New Experience added successfully`, type: "success" });
     }
 
-    refreshUser(userInfo?._id, updateUser, setEnqueueSnack);
-
+    updateUser(createEmpResponse?.updatedUser)
     handleClose();
   };
 
@@ -248,6 +260,7 @@ export const AddEmploymentComp = ({
         startDate: jobDuration?.from,
         endDate: jobDuration?.to,
         jobDesc: jobDesc,
+        chef: userInfo?._id
       });
       return response;
     } catch (error) {
@@ -288,7 +301,7 @@ export const AddEmploymentComp = ({
             <span>From</span>
             <input
               type="text"
-              placeholder="Company Name"
+              placeholder="Start date"
               name="name"
               id="name"
               className="inputEl"
@@ -304,7 +317,7 @@ export const AddEmploymentComp = ({
             <span>To</span>
             <input
               type="text"
-              placeholder="Company Name"
+              placeholder="End date"
               name="name"
               id="name"
               className="inputEl"
@@ -333,7 +346,7 @@ export const AddEmploymentComp = ({
           type="submit"
           className="button editProfileBtn"
         >
-          <span>Add</span>
+          {!isCreating ? <span>Add</span> : <CircularProgress size={20} />}
         </button>
       </form>
     </>
@@ -345,12 +358,13 @@ export const AddCertficateComp = ({
   userInfo,
   updateUser,
   handleClose,
+  setIsCreating,
+  isCreating
 }) => {
   const [certTitle, setCertTitle] = useState("");
   const [dateAwarded, setDateAwarded] = useState("");
   const [certDescription, setCertdescription] = useState("");
   const [certImages, setCertImages] = useState([]);
-  const [isCreating, setIsCreating] = useState(false);
 
   const setEnqueueSnack = useProfilePageStore((state) => state.setEnqueueSnack);
 
@@ -374,8 +388,8 @@ export const AddCertficateComp = ({
       setEnqueueSnack({ message: `New Certificate added successfully`, type: "success" });
     }
 
-    refreshUser(userInfo?._id, updateUser, setEnqueueSnack);
 
+    updateUser(createCertResponse?.updatedUser)
     handleClose();
   };
 
@@ -411,6 +425,7 @@ export const AddCertficateComp = ({
         dateAwarded: dateAwarded,
         description: certDescription,
         images: imagesURL,
+        chef: userInfo?._id
       });
       return response;
     } catch (error) {
@@ -487,7 +502,7 @@ export const AddCertficateComp = ({
           type="submit"
           className="button editProfileBtn"
         >
-          <span>Add</span>
+          {!isCreating ? <span>Add</span> : <CircularProgress size={20} />}
         </button>
       </form>
     </>

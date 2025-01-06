@@ -15,13 +15,26 @@ import ConfirmDelete from '@/profilePageComponents/editProfileComponents/deleteP
 import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandedDishDetails from "@/explorePageComponents/expandedDishDetails";
 import EnlargeImageComp from '@/app/components/enlargeImageComp';
+import { useEffect, useState } from "react";
+import { getOneCertification, getOneDish, getOneExperience } from "@/api";
 
 
 
 const ChefProfile = () => {
+  const [userLists, setUserLists] = useState({
+    dishCatalogue: [],
+    experiences: [],
+    certifications: []
+  })
 
   const userInfo = useAuthStore((state) => state.user);
   const logOut = useAuthStore((state) => state.logOut);
+  const deletedDishID = useAuthStore((state) => state.deletedDishID);
+  const deletedExperienceID = useAuthStore((state) => state.deletedExperienceID);
+  const deletedCertificationID = useAuthStore((state) => state.deletedCertificationID);
+  const setDeletedDishID = useAuthStore((state) => state.setDeletedDishID);
+  const setDeletedExperienceID = useAuthStore((state) => state.setDeletedExperienceID);
+  const setDeletedCertificationID = useAuthStore((state) => state.setDeletedCertificationID);
   const setEditTitle = useProfilePageStore((state) => state.setEditTitle);
   const setAddSection = useProfilePageStore((state) => state.setAddSection);
   const setEditEmploymentSect = useProfilePageStore((state) => state.setEditEmploymentSect);
@@ -32,6 +45,7 @@ const ChefProfile = () => {
     (state) => state.setEnlargeImage
   );
   const setExpandedDishDetails = useProfilePageStore((state) => state.setExpandedDishDetails);
+  const setEnqueueSnack = useProfilePageStore((state) => state.setEnqueueSnack);
 
   const expandDishDetails = (dish) => {
     setExpandedDishDetails(dish)
@@ -40,6 +54,123 @@ const ChefProfile = () => {
   const handleLogout = () => {
     logOut()
   }
+
+  useEffect(() => {
+    fetchUserLists()
+  }, [userInfo])
+
+  useEffect(() => {
+    if(deletedDishID) {
+      removeDeletedDish(deletedDishID)
+    }
+    if(deletedExperienceID) {
+      removeDeletedExperience(deletedExperienceID)
+    }
+    if(deletedCertificationID) {
+      removeDeletedCertification(deletedCertificationID)
+    }
+  }, [deletedDishID, deletedExperienceID, deletedCertificationID])
+  
+
+  const fetchUserLists = () => {
+    userInfo?.dishCatalogue?.forEach(dishID => {
+      fetchDish(dishID)
+    });
+    userInfo?.experiences?.forEach(experienceID => {
+      fetchExperience(experienceID)
+    });
+    userInfo?.certifications?.forEach(certificationID => {
+      fetchCertification(certificationID)
+    });
+  }
+
+  const fetchDish = async (dishID) => {
+    const dishDetails = await getOneDish(dishID);
+
+    if (dishDetails?.status == 200) {
+      setUserLists((prev) => ({
+        ...prev,
+        dishCatalogue: prev.dishCatalogue
+          ? prev.dishCatalogue.some((dish) => dish?._id === dishDetails?.fetchedDish?._id)
+            ? prev.dishCatalogue.map((dish) =>
+                dish._id === dishDetails?.fetchedDish?._id ? dishDetails?.fetchedDish : dish
+              ) // Update the dish if it exists
+            : [...prev.dishCatalogue, dishDetails?.fetchedDish] // Add the new dish if it doesn't exist
+          : [dishDetails?.fetchedDish], // If `dishCatalogue` doesn't exist, create it with the new dish
+      }));
+    } else {
+      setEnqueueSnack({ message: dishDetails?.errorMessage, type: "error" });
+    }
+  };
+
+  const fetchExperience = async(experienceID) => {
+    const experienceDetails = await getOneExperience(experienceID);
+
+    if (experienceDetails?.status == 200) {
+      setUserLists((prev) => ({
+        ...prev,
+        experiences: prev.experiences
+          ? prev.experiences.some((experience) => experience?._id === experienceDetails?.fetchedExperience?._id)
+            ? prev.experiences.map((experience) =>
+              experience._id === experienceDetails?.fetchedExperience?._id ? experienceDetails?.fetchedExperience : experience
+              ) // Update the experience if it exists
+            : [...prev.experiences, experienceDetails?.fetchedExperience] // Add the new experience if it doesn't exist
+          : [experienceDetails?.fetchedExperience], // If `experiences` doesn't exist, create it with the new experience
+      }));
+    } else {
+      setEnqueueSnack({ message: experienceDetails?.errorMessage, type: "error" });
+    }
+  }
+
+  const fetchCertification = async(certificationID) => {
+    const certificationDetails = await getOneCertification(certificationID);
+
+    if (certificationDetails?.status == 200) {
+      setUserLists((prev) => ({
+        ...prev,
+        certifications: prev.certifications
+          ? prev.certifications.some((experience) => experience?._id === certificationDetails?.fetchedCertification?._id)
+            ? prev.certifications.map((experience) =>
+              experience._id === certificationDetails?.fetchedCertification?._id ? certificationDetails?.fetchedCertification : experience
+              ) // Update the certification if it exists
+            : [...prev.certifications, certificationDetails?.fetchedCertification] // Add the new certification if it doesn't exist
+          : [certificationDetails?.fetchedCertification], // If `certifications` doesn't exist, create it with the new experience
+      }));
+    } else {
+      setEnqueueSnack({ message: certificationDetails?.errorMessage, type: "error" });
+    }
+  }
+
+  const removeDeletedDish = (deletedDishID) => {
+    setUserLists((prev) => ({
+      ...prev,
+      dishCatalogue: prev.dishCatalogue
+        ? prev.dishCatalogue.filter((dish) => dish._id !== deletedDishID)
+        : [],
+    }));
+    setDeletedDishID(null)
+  }
+
+  const removeDeletedExperience = (deletedExperienceID) => {
+    setUserLists((prev) => ({
+      ...prev,
+      experiences: prev.experiences
+        ? prev.experiences.filter((experience) => experience._id !== deletedExperienceID)
+        : [],
+    }));
+    setDeletedExperienceID(null)
+  }
+
+  const removeDeletedCertification = (deletedCertificationID) => {
+    setUserLists((prev) => ({
+      ...prev,
+      certifications: prev.certifications
+        ? prev.certifications.filter((certification) => certification._id !== deletedCertificationID)
+        : [],
+    }));
+    setDeletedCertificationID(null)
+  }
+  
 
   return (
     <div className="chefProfile_page">
@@ -141,7 +272,7 @@ const ChefProfile = () => {
         <div className="dishes_catalogue_section">
           <h3 className="catalogue_title">Dishes Catalogue</h3>
           <div className="catalogue_list">
-            {userInfo?.dishCatalogue?.map((catalogue, i) => (
+            {userLists?.dishCatalogue?.map((catalogue, i) => (
               <div
                 key={i}
                 className="catalogue_container"
@@ -150,14 +281,15 @@ const ChefProfile = () => {
                 <div className="dishImage_container">
                   <Image
                     src={
-                      catalogue.images[0]
-                        ? catalogue.images[0]
+                      catalogue?.images[0]
+                        ? catalogue?.images[0]
                         : `/images/catalogue_one.jpg`
                     }
                     width={500}
                     height={500}
                     alt="chef drawing"
                     className={`catalogue_image`}
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
                   />
                 </div>
                 <p className="dishName">{catalogue.name}</p>
@@ -183,9 +315,9 @@ const ChefProfile = () => {
             onClick={() => setAddSection("employment")}
           />
         </div>
-        {userInfo?.experiences ? (
+        {userLists?.experiences[0] ? (
           <>
-            {userInfo?.experiences?.map((experience, i) => (
+            {userLists?.experiences?.map((experience, i) => (
               <div key={i} className="experienceContainer">
                 <div className="experienceContainer_topSect">
                   <h4 className="experienceDetails_position">
@@ -234,9 +366,9 @@ const ChefProfile = () => {
             onClick={() => setAddSection("certifications")}
           />
         </div>
-        {userInfo?.certifications ? (
+        {userLists?.certifications[0] ? (
           <>
-            {userInfo?.certifications?.map((certification, i) => (
+            {userLists?.certifications?.map((certification, i) => (
               <div key={i} className="experienceContainer">
                 <div className="experienceContainer_topSect">
                   <h4 className="experienceDetails_position">

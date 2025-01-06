@@ -46,7 +46,7 @@ const LoginComp = ({ revealSignUp, routeUser }) => {
 
       updateUser(authResponse?.userDetails);
 
-      if (!userDetails?.role) {
+      if (!authResponse?.userDetails?.role) {
         routeUser("onboarding");
       } else {
         routeUser("explore");

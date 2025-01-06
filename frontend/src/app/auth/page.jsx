@@ -1,22 +1,21 @@
-'use client';
+"use client";
 
-import { useRef, useState } from 'react';
-import './auth.css';
-import LoginComp from '@/authComponents/login';
-import SignUpComp from '@/authComponents/signUp';
-import gsap from 'gsap';
+import { useRef, useState } from "react";
+import "./auth.css";
+import LoginComp from "@/authComponents/login";
+import SignUpComp from "@/authComponents/signUp";
+import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import Navbar from '../components/navbar';
-import MenuNav from '../components/menuNav';
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import Navbar from "../components/navbar";
+import MenuNav from "../components/menuNav";
 
 gsap.registerPlugin(CustomEase);
 
-
 const AuthPage = () => {
-  const [showLoginForm, setshowLoginForm] = useState(false)
- 
+  const [showLoginForm, setshowLoginForm] = useState(false);
+
   const authOverlayRef = useRef(null);
   const chefImageOneRef = useRef(null);
   const chefImageTwoRef = useRef(null);
@@ -24,41 +23,41 @@ const AuthPage = () => {
   const router = useRouter();
 
   const revealLogin = () => {
-    setshowLoginForm(true)
-    
-    if(!chefImageOneRef.current || !chefImageTwoRef.current) return
+    setshowLoginForm(true);
 
-    const authOverlay = authOverlayRef.current
-    const tl = gsap.timeline();
+    if (!chefImageOneRef.current || !chefImageTwoRef.current) return;
 
-    tl.to(authOverlay, {
-      left: 'calc(50% + 1rem)',
-      duration: 0.5,
-      ease: CustomEase.create("custom", "M0,0 C0.407,0.011 1,0.599 1,1 "),
-    })
-    .to(chefImageTwoRef.current, { opacity: 1, duration: .7},)
-    .to(chefImageOneRef.current, { opacity: 0, duration: .7}, "<")
-  }
-
-  const revealSignUp = () => {
-    setshowLoginForm(false)
     const authOverlay = authOverlayRef.current;
     const tl = gsap.timeline();
 
+    tl.to(authOverlay, {
+      left: "calc(50% + 1rem)",
+      duration: 0.5,
+      ease: CustomEase.create("custom", "M0,0 C0.407,0.011 1,0.599 1,1 "),
+    })
+      .to(chefImageTwoRef.current, { opacity: 1, duration: 0.7 })
+      .to(chefImageOneRef.current, { opacity: 0, duration: 0.7 }, "<");
+  };
+
+  const revealSignUp = () => {
+    setshowLoginForm(false);
+    const authOverlay = authOverlayRef.current;
+    const tl = gsap.timeline();
 
     tl.to(authOverlay, {
       left: "1rem",
       duration: 0.5,
       ease: CustomEase.create("custom", "M0,0 C0.407,0.011 1,0.599 1,1 "),
     })
-    .to(chefImageTwoRef.current, { opacity: 0, duration: .7},)
-    .to(chefImageOneRef.current, { opacity: 1, duration: .7}, "<")
+      .to(chefImageTwoRef.current, { opacity: 0, duration: 0.7 })
+      .to(chefImageOneRef.current, { opacity: 1, duration: 0.7 }, "<");
   };
 
   const routeUser = (to) => {
     router.push(`/${to}`);
-  }
-  
+  };
+
+
   return (
     <div className="auth_page_wrapper">
       <div className="navbarContainer_auth">
@@ -109,6 +108,6 @@ const AuthPage = () => {
       <MenuNav />
     </div>
   );
-}
+};
 
-export default AuthPage
+export default AuthPage;

@@ -48,6 +48,7 @@ router.post("/create", async (req, res) => {
 
 //  Fetch all dishes
   router.get("/", async (req, res) => {
+
     try {
       const dishes = await DishModel.find();  // Fetch all dishes
   
@@ -58,6 +59,31 @@ router.post("/create", async (req, res) => {
       res.status(200).json(dishes);  // Return the list of dishes
     } catch (err) {
       res.status(500).json({ message: "Error fetching dishes", error: err.message });
+    }
+  });
+
+
+//  Fetch one dishes
+  router.get("/fetch", async (req, res) => {
+    const { dishID } = req.query;
+    
+  // Validate input
+  if (!dishID) {
+    return res.status(400).json({ message: "Dish ID is required" });
+  }
+
+    try {
+      // Find the dish by ID
+      const dish = await DishModel.findById(dishID);
+  
+    // Check if the dish exists
+    if (!dish) {
+      return res.status(404).json({ message: "Dish not found" });
+    }
+  
+      res.status(200).json(dish);  // Return the dish
+    } catch (err) {
+      res.status(500).json({ message: "Error fetching the dish", error: err.message });
     }
   });
   
@@ -93,9 +119,10 @@ router.delete("/delete", async (req, res) => {
   const { dishID } = req.query;
   const { chef } = req.body; // Logged-in chef (user ID)
 
+
   // Validate input
-  if (!dishID) {
-    return res.status(400).json({ message: "Dish ID is required" });
+  if (!dishID || !chef) {
+    return res.status(400).json({ message: "Dish ID and Chef are required" });
   }
 
   try {
@@ -115,14 +142,14 @@ router.delete("/delete", async (req, res) => {
     }
 
     // Delete the dish
-    await DishModel.findByIdAndDelete(dishID);
+    const deletedDish = await DishModel.findByIdAndDelete(dishID);
 
     // Remove the dish ID from the user's dishCatalogue array
     const updatedUser = await UserModel.findByIdAndUpdate(
       chef, // User ID (assuming chef is the user ID)
       { $pull: { dishCatalogue: dishID } }, // Remove the dish ID from the array
       { new: true } // Return the updated user document
-    );
+    ).exec();
 
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
@@ -131,7 +158,7 @@ router.delete("/delete", async (req, res) => {
     // Return success message
     res.status(200).json({
       message: "Dish deleted successfully and removed from user's catalogue",
-      user: updatedUser,
+      deletedDish
     });
   } catch (err) {
     res.status(500).json({ message: "Error deleting dish", error: err.message });

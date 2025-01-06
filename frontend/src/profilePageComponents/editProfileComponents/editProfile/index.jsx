@@ -9,13 +9,18 @@ import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import useAuthStore from "@/store/authStore";
 import { updateUserProfile } from "@/api";
 import { refreshUser, uploadPic } from "@/utils/functions";
+import { CircularProgress } from "@mui/material";
 
 const EditProfile = () => {
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const editTitle = useProfilePageStore((state) => state.editTitle);
   const setEditTitle = useProfilePageStore((state) => state.setEditTitle);
  
   const handleClose = () => {
+    if(isUpdating) {
+      return
+    }
     setEditTitle("");
   };
 
@@ -35,11 +40,15 @@ const EditProfile = () => {
         {editTitle == "Profile Picture" ? (
           <EditProfilePic
             handleClose={handleClose}
+            isUpdating={isUpdating}
+            setIsUpdating={setIsUpdating}
           />
         ) : (
           <EditNameComp
             handleClose={handleClose}
             editTitle={editTitle}
+            isUpdating={isUpdating}
+            setIsUpdating={setIsUpdating}
           />
         )}
       </div>
@@ -49,9 +58,8 @@ const EditProfile = () => {
 
 export default EditProfile;
 
-const EditNameComp = ({ handleClose, editTitle }) => {
+const EditNameComp = ({ handleClose, editTitle, isUpdating, setIsUpdating }) => {
   const [profileEdit, setProfileEdit] = useState("");
-  const [isUpdating, setIsUpdating] = useState(false);
 
   const userInfo = useAuthStore((state) => state.user);
   const updateUser = useAuthStore((state) => state.updateUser);
@@ -149,7 +157,7 @@ const EditNameComp = ({ handleClose, editTitle }) => {
           type="submit"
           className="button editProfileBtn"
         >
-          <span>Change</span>
+          {!isUpdating ? <span>Change</span> : <CircularProgress size={20} />}
         </button>
       </form>
     </>
@@ -245,7 +253,7 @@ const EditProfilePic = ({ handleClose }) => {
         onClick={changeProfilePic}
         className="button editProfileBtn"
       >
-        <span>Change</span>
+        {!isUpdating ? <span>Change</span> : <CircularProgress size={20} />}
       </button>
     </div>
   );

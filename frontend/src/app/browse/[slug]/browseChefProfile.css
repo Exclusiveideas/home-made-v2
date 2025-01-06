@@ -67,7 +67,7 @@
     color: white;
     display: none;
 }
-
+ 
 .changeProfilePic_container.chef {
     font-size: 70%;
 }
@@ -84,6 +84,7 @@ a {
 .profilePage_picture {
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 
 
@@ -715,4 +716,437 @@ a {
 
 .certificateImage:hover {
     transform: scale(1.04);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Tab */
+@media (max-width: 992px) {
+
+    /* client profile */
+
+
+    .editIcon.clientPic {
+        font-size: 40px;
+    }
+
+
+    .profilePic_container.client {
+        width: 200px;
+        height: 200px;
+    }
+    
+.userName {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.clientProfilePage_otherSection {
+    width: 85%;
+    padding: 1rem;
+}
+
+
+.selectMessage_Icon {
+    width: 85px;
+    height: max-content;
+}
+
+
+    /* chef profile */
+
+    .chefProfile_page {
+        padding: 1.5rem 0;
+    }
+
+    .chefProfile_wrapper {
+        width: 100%;
+        padding: 1rem 0;
+    }
+    
+
+    .title_x_rates_container .profileTitle {
+        font-size: 25px;
+        font-weight: 600;
+        max-width: 100%;
+        flex: 1;
+    }
+
+    
+    .nameBox .editIcon {
+        visibility: visible;
+    }
+
+
+
+    /*  Employment */
+
+    .chefExperience_wrapper {
+        margin: 0;
+        width: 100%;
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    
+    .experienceContainer_topSect .experienceDetails_position {
+        font-size: 20px;
+        max-width: 90%;
+    }
+
+
+    .experienceContainer_topSect .experienceDetails_duration {
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+
+    .experienceContainer_descriptionSect .experienceDescription {
+        font-size: 13px;
+        width: 97%;
+    }
+
+    .editEmploymentSection {
+        right: .5rem;
+        top: 1.5rem;
+        gap: .7rem;
+        visibility: visible;
+    }
+
+    .editIcon {
+        font-size: 20px;
+    }
+
+    
+
+    /* certificate section */
+
+    .chefCertification_wrapper {
+        width: 100%;
+        padding: 1rem;
+
+    }
+
+    .certificateImage {
+        height: max-content;
+        width: 45%;
+    }
+
+    
+
+}
+
+
+
+
+
+
+/* Mobile */
+@media (max-width: 575px) {
+
+    .clientProfilePage {
+        padding: 1.5rem;
+    }
+    
+    
+    /* client profile */
+
+
+    .editIcon.clientPic {
+        font-size: 25px;
+    }
+
+
+    .profilePic_container.client {
+        width: 150px;
+        height: 150px;
+    }
+    
+.userName {
+    font-size: 24px;
+    text-align: center;
+}
+
+.clientProfilePage_otherSection {
+    width: 100%;
+}
+
+
+.sectionHeaderTxt {
+    font-size: 25px;
+}
+
+
+.noChats_container {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+
+.selectMessage_Icon {
+    width: 70px;
+    height: max-content;
+}
+
+.noChats_container p {
+    font-size: 13px;
+}
+
+
+/* chef profile */
+
+    .topPicture_section {
+        flex-direction: column;
+    }
+
+    .topPicture_section_innerCont {
+        padding: 1rem;
+        align-items: center;
+        gap: .7rem;
+        flex-direction: column;
+    }
+
+    .topPicture_section_rightSection {
+        padding-right: 0;
+        transform: scale(.7);
+    }
+
+
+    .profilePic_container.chef {
+        width: 130px;
+        height: 130px;
+    }
+
+
+    .topPicture_section_nameContainer {
+        align-items: center;
+        justify-content: center;
+        gap: .2rem;
+        margin-top: 0;
+    }
+
+
+    .topPicture_section_nameContainer .nameTxt {
+        font-size: 24px;
+    }
+
+    .topPicture_section_nameContainer .locationTxt {
+        font-size: 13px;
+    }
+
+
+    .nameBox .editIcon {
+        visibility: visible;
+        font-size: 18px;
+    }
+
+    .nameBox .editIcon.top {
+        align-self: baseline;
+        transform: scale(1);
+    }
+
+    .nameBox .editIcon:hover {
+        transform: scale(1.2);
+    }
+
+    .nameBox .editIcon.top:hover {
+        transform: scale(1.2);
+    }
+
+
+
+    /* profile overview */
+
+
+    .profileOverview_section {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+
+    .profileOverview_section .profileOverview_container p {
+        font-size: 13px;
+    }
+
+
+    .title_x_rates_container {
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1.5rem;
+        padding-right: 0;
+        flex-direction: column;
+    }
+
+    .nameBox {
+        gap: .7rem;
+    }
+
+
+    .title_x_rates_container .profileTitle {
+        font-size: 20px;
+        font-weight: 600;
+        max-width: 100%;
+        flex: 1;
+    }
+
+    .title_x_rates_container .profileRates {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+
+
+    /*  languages */
+
+    .languages_subContainer {
+        gap: 1rem;
+    }
+
+    .profile_languages_section .languages_list {
+        gap: .4rem;
+    }
+
+    .profile_languages_section .languages_list .languageTxt {
+        padding: .2rem .9rem;
+        font-size: 11px;
+    }
+
+
+
+    /*  Dish Catalogue */
+    .dishes_catalogue_section .catalogue_list {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        row-gap: 1.5rem;
+    }
+
+    .catalogue_container {
+        gap: .6rem;
+    }
+
+    .catalogue_container .dishName {
+        font-size: 13px;
+    }
+
+
+
+    /*  Employment */
+
+    .chefExperience_wrapper {
+        margin: 0;
+        width: 100%;
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .chefExperience_wrapper_titleSect {
+        padding: 0;
+    }
+
+
+    .experienceTitle {
+        font-size: 25px;
+    }
+
+    .addExperience_icon {
+        font-size: 22px;
+    }
+
+
+    .experienceContainer {
+        padding: 1.5rem 0;
+        margin: 0;
+        gap: 1rem;
+    }
+
+    .experienceContainer_topSect .experienceDetails_position {
+        font-size: 17px;
+        max-width: 90%;
+    }
+
+
+    .experienceContainer_topSect .experienceDetails_duration {
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+
+    .experienceContainer_descriptionSect .experienceDescription {
+        font-size: 12px;
+        width: 97%;
+    }
+
+    .editEmploymentSection {
+        right: .5rem;
+        top: 1.5rem;
+        gap: .7rem;
+    }
+
+    .editIcon {
+        font-size: 18px;
+    }
+
+
+
+
+    /* certificate section */
+
+    .chefCertification_wrapper {
+        width: 100%;
+        padding: 1rem;
+
+    }
+
+    .certificateImage {
+        height: max-content;
+        width: 45%;
+    }
+
+    
+.addToSection_container p {
+    font-size: 12px;
+    max-width: 84%;
+}
+
 }

@@ -58,10 +58,10 @@ const Onboarding = () => {
   }, [userRole])
 
   useEffect(() => {
-    // if (userInfo?.role) router.push("/profile");
-    // else if (!userInfo?._id) {
-      // router.push("/auth");
-    // }
+    if (userInfo?.role) router.push("/profile");
+    else if (!userInfo?._id) {
+      router.push("/auth");
+    }
   }, [userInfo])
 
 
@@ -131,12 +131,13 @@ const Onboarding = () => {
         profilePicURL = chefInfo?.profilePic
       }
       
-  
+      
       const response = await updateUserProfile({
         ...userInfo,
-        ...setChefInfo,
+        ...chefInfo,
         profilePic: profilePicURL,
       });
+
       return response;
 
     } catch (error) {

@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
     if (!userID) {
         return res.status(400).json({ message: "User ID is required" });
     }
-
+    
     try {
         const user = await UserModel.findById(userID);
         if (!user) {
@@ -37,9 +37,9 @@ router.put("/update", async (req, res) => {
 
     try {
         
-        const { name, email, languages, location, position, profilePic, dishCatalogue, experiences, certifications, chats, role } = req.body;
+        const { name, email, languages, rates, title, location, position, profilePic, profileOverview, dishCatalogue, experiences, certifications, chats, role } = req.body;
 
-        const updatedData = { name, email, languages, location, position, profilePic, dishCatalogue, experiences, certifications, chats, role };
+        const updatedData = { name, email, languages, rates, title, location, position, profilePic, profileOverview, dishCatalogue, experiences, certifications, chats, role };
 
         // Find the user by userID and update the user's profile with the updated data
         const updatedUser = await UserModel.findOneAndUpdate(

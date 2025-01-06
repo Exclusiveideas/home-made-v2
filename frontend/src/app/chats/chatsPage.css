@@ -121,16 +121,15 @@
 .singleChat_pic {
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 
 .chatDetails_container {
-    /* border: 1px solid black; */
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
-    /* padding: .5rem; */
 }
 
 .chat_chefName {
@@ -139,7 +138,9 @@
 }
 
 .chat_lastMessage {
-    font-size: 11px;
+    font-size: 9px;
+    color: #252525;
+    font-style: italic;
 }
 
 .chatdate_container {
@@ -163,11 +164,23 @@
     padding-right: .3rem;
 }
 
-.activeChat_container.selectChat {
+.tapToMesgContainer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
     align-items: center;
     justify-content: center;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    background-color: #d1d0cf;
 }
 
+.tapToMesgContainer.hide {
+    display: none;
+}
 
 .chatPage_bg_wrapper {
     position: absolute;
@@ -218,9 +231,12 @@
 
 .messageContainer {
     width: max-content;
-    min-height: 2.8rem;
+    /* min-height: 2.8rem; */
+    height: max-content;
     padding-left: 1rem;
     padding-right: .5rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
     display: flex;
     background: #7c7c7c;
     font-size: 13px;
@@ -236,15 +252,19 @@
     align-self: flex-end;
 }
 
+.messageContainer .messageText {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
 .messageContainer .time {
-    font-size: 10px;
+    font-size: 9px;
     padding: .3rem;
     height: 100%;
     display: flex;
     align-items: flex-end;
-    color: #eeeeee;
-    font-style: italic;
-    /* border: 1px solid black; */
+    color: #cccccc;
+    margin-top: .5rem;
 }
 
 
@@ -337,6 +357,11 @@
 .selectMessage_Icon {
     width: 100px;
     height: max-content;
+    display: flex;
+}
+
+.selectMessage_Icon.hide {
+    display: none;
 }
 
 

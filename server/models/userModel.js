@@ -11,7 +11,9 @@ const UserSchema = new mongoose.Schema(
       default: "", // Default value 
       trim: true,
     },
+    rates: { type: String, default: "" },
     languages: { type: String, default: "" },
+    title: { type: String, default: "" },
     location: {
       type: String,
       default: "", // Default empty string
@@ -26,24 +28,29 @@ const UserSchema = new mongoose.Schema(
       default: "", // Default empty string for profile picture
       trim: true,
     },
+    profileOverview: {
+      type: String,
+      default: "",
+      trim: true,
+    },
     dishCatalogue: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: 'DishModel', // Reference to the DishModel
+      ref: 'Dish', // Reference to the DishModel
       default: [],  
     },
     experiences: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: 'ExperienceModel', // Reference to the ExperienceModel
+      ref: 'Experience', // Reference to the ExperienceModel
       default: [],  
     },
     certifications: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: 'CertificationModel', // Reference to the CertificationModel
+      ref: 'Certification', // Reference to the CertificationModel
       default: [],  
     },
     chats: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: 'ChatRoomModel', // Reference to the ChatRoomModel
+      ref: 'ChatRoom', // Reference to the ChatRoomModel
       default: [],  
     },
   },

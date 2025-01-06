@@ -1,4 +1,3 @@
-import { updatedUser } from "@/utils/constants";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -6,7 +5,10 @@ import { persist } from "zustand/middleware";
 const useAuthStore = create()(
   persist(
     (set) => ({
-      user: updatedUser,
+      user: {},
+      deletedDishID: null,
+      deletedExperienceID: null,
+      deletedCertificationID: null,
       logOut: () =>
         set(() => ({
           user: null,
@@ -14,6 +16,18 @@ const useAuthStore = create()(
       updateUser: (userDet) =>
         set(() => ({
           user: userDet,
+        })),
+      setDeletedDishID: (dishID) =>
+        set(() => ({
+          deletedDishID: dishID,
+        })),
+      setDeletedExperienceID: (experienceID) =>
+        set(() => ({
+          deletedExperienceID: experienceID,
+        })),
+      setDeletedCertificationID: (certificationID) =>
+        set(() => ({
+          deletedCertificationID: certificationID,
         })),
     }),
     {

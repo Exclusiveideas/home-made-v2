@@ -7,11 +7,15 @@ import { useState } from "react";
 import { deleteCertification, deleteDish, deleteEmployment } from "@/api";
 import useAuthStore from "@/store/authStore";
 import { refreshUser } from "@/utils/functions";
+import { CircularProgress } from "@mui/material";
 
 const ConfirmDelete = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const userInfo = useAuthStore((state) => state.user);
   const updateUser = useAuthStore((state) => state.updateUser);
+  const setDeletedDishID = useAuthStore((state) => state.setDeletedDishID);
+  const setDeletedExperienceID = useAuthStore((state) => state.setDeletedExperienceID);
+  const setDeletedCertificationID = useAuthStore((state) => state.setDeletedCertificationID);
   const confirmDelete = useProfilePageStore((state) => state.confirmDelete);
   const setConfirmDelete = useProfilePageStore(
     (state) => state.setConfirmDelete
@@ -22,57 +26,34 @@ const ConfirmDelete = () => {
   const setEnqueueSnack = useProfilePageStore((state) => state.setEnqueueSnack);
 
   const handleClose = () => {
+    if(isDeleting) {
+      return
+    }
     setConfirmDelete(null);
   };
 
-  const continueDelete = () => {
+  const continueDelete = async () => {
     setIsDeleting(true);
     if (confirmDelete?.label == "employment") {
-      deleteEmp();
+      await deleteEmp();
     } else if (confirmDelete?.label == "certification") {
-      deleteCert();
+      await deleteCert();
     } else if (confirmDelete?.label == "dish") {
-      deleteSelectedDish();
+      await deleteSelectedDish();
     }
-  };
-
-  const deleteEmp = async () => {
-    const employmentID = confirmDelete?.toDelete?._id;
-    if (!employmentID) {
-      setEnqueueSnack({ message: "Something went wrong", type: "error" });
-      setIsDeleting(false);
-      return;
-    }
-
-    const deleteEmpResponse = await deleteEmployment(employmentID);
-
-    if (deleteEmpResponse?.status == 500) {
-      setEnqueueSnack({
-        message: deleteEmpResponse?.errorMessage,
-        type: "error",
-      });
-    } else {
-      setEnqueueSnack({
-        message: `Employment deleted successfully`,
-        type: "success",
-      });
-      refreshUser(userInfo?._id, updateUser, setEnqueueSnack);
-    }
-
-    handleClose();
-
-    setIsDeleting(false);
+    
+    refreshUser(userInfo?._id, updateUser, setEnqueueSnack);
   };
 
   const deleteCert = async () => {
-    const certID = confirmDelete?.toDelete?._id;
-    if (!certID) {
+    const certificationID = confirmDelete?.toDelete?._id;
+    if (!certificationID) {
       setEnqueueSnack({ message: "Something went wrong", type: "error" });
       setIsDeleting(false);
       return;
     }
 
-    const deleteCertResponse = await deleteCertification(certID);
+    const deleteCertResponse = await deleteCertification({ certificationID, chef: userInfo?._id });
 
     if (deleteCertResponse?.status == 500) {
       setEnqueueSnack({
@@ -84,23 +65,52 @@ const ConfirmDelete = () => {
         message: "Certification deleted successfully",
         type: "success",
       });
-      refreshUser(userInfo?._id, updateUser, setEnqueueSnack);
     }
 
-    handleClose();
+    setDeletedCertificationID(deleteCertResponse?.deletedCertification?._id)
 
     setIsDeleting(false);
+    handleClose();
+  };
+
+  const deleteEmp = async () => {
+    const experienceID = confirmDelete?.toDelete?._id;
+    if (!experienceID) {
+      setEnqueueSnack({ message: "Something went wrong", type: "error" });
+      setIsDeleting(false);
+      return;
+    }
+
+    const deleteEmpResponse = await deleteEmployment({ experienceID, chef: userInfo?._id });
+
+    if (deleteEmpResponse?.status == 500) {
+      setEnqueueSnack({
+        message: deleteEmpResponse?.errorMessage,
+        type: "error",
+      });
+    } else {
+      setEnqueueSnack({
+        message: `Employment deleted successfully`,
+        type: "success",
+      });
+    }
+
+    setDeletedExperienceID(deleteEmpResponse?.deletedExp?._id)
+
+    setIsDeleting(false);
+    handleClose();
   };
 
   const deleteSelectedDish = async () => {
     const dishID = confirmDelete?.toDelete?._id;
+    
     if (!dishID) {
       setEnqueueSnack({ message: "Something went wrong", type: "error" });
       setIsDeleting(false);
       return;
     }
 
-    const deleteDishResponse = await deleteDish(dishID);
+    const deleteDishResponse = await deleteDish({ dishID, chef: userInfo?._id });
 
     if (deleteDishResponse?.status == 500) {
       setEnqueueSnack({
@@ -112,8 +122,9 @@ const ConfirmDelete = () => {
         message: `Dish deleted successfully`,
         type: "success",
       });
-      refreshUser(userInfo?._id, updateUser, setEnqueueSnack);
     }
+
+    setDeletedDishID(deleteDishResponse?.deletedDish?._id)
 
     setIsDeleting(false);
     handleClose();
@@ -156,7 +167,7 @@ const ConfirmDelete = () => {
             className="button editProfileBtn"
             onClick={continueDelete}
           >
-            <span>Delete</span>
+            {!isDeleting ? <span>Delete</span> : <CircularProgress size={20} />}
           </button>
         </div>
       </div>

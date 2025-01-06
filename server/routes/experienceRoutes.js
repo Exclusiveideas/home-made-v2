@@ -40,18 +40,41 @@ router.post("/create", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.status(201).json({
-      message: "Experience created and added to user profile",
-      experience: savedExperience,
-      user: updatedUser,
-    });
+    res.status(201).json(updatedUser);
   } catch (err) {
     res.status(500).json({
-      message: "Error creating employment history",
+      message: "Error creating experience history",
       error: err.message,
     });
   }
 });
+
+
+
+//  Fetch one Experience
+router.get("/fetch", async (req, res) => {
+  const { experienceID } = req.query;
+  
+// Validate input
+if (!experienceID) {
+  return res.status(400).json({ message: "Experience ID is required" });
+}
+
+  try {
+    // Find the experience by ID
+    const experience = await ExperienceModel.findById(experienceID);
+
+  // Check if the experience exists
+  if (!experience) {
+    return res.status(404).json({ message: "Experience not found" });
+  }
+
+    res.status(200).json(experience);  // Return the experience
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching the experience", error: err.message });
+  }
+});
+
 
 
 // Update Employment History
@@ -93,7 +116,7 @@ router.put("/update", async (req, res) => {
     const updatedEmployment = await employment.save();
 
     // Return the updated employment history
-    res.status(200).json(updatedEmployment);
+    res.status(200).json({ message: 'Successfully updated'});
   } catch (err) {
     res
       .status(500)
@@ -109,6 +132,10 @@ router.put("/update", async (req, res) => {
 router.delete("/delete", async (req, res) => {
   const { experienceID } = req.query;
   const { chef } = req.body; // The logged-in chef
+  
+  if (!experienceID || !chef) {
+    return res.status(400).json({ message: "Experience ID and Chef are required" });
+  }
 
   try {
     // Find the employment history
@@ -127,14 +154,14 @@ router.delete("/delete", async (req, res) => {
     }
 
     // Delete the employment history
-    await ExperienceModel.findByIdAndDelete(experienceID);
+    const deletedExperience = await ExperienceModel.findByIdAndDelete(experienceID);
 
     // Remove the experience ID from the user's experiences array
     const updatedUser = await UserModel.findByIdAndUpdate(
       chef, // User ID (assuming `chef` is the user ID)
       { $pull: { experiences: experienceID } }, // Remove the experience ID from the experiences array
       { new: true } // Return the updated user document
-    );
+    ).exec();
 
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
@@ -142,7 +169,7 @@ router.delete("/delete", async (req, res) => {
 
     res.status(200).json({
       message: "Employment history deleted and removed from user profile successfully",
-      user: updatedUser,
+      deletedExperience
     });
   } catch (err) {
     res.status(500).json({

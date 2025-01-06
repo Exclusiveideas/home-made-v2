@@ -8,6 +8,7 @@ import { refreshUser } from "@/utils/functions";
 import useProfilePageStore from "@/store/profilePageStore";
 import useAuthStore from "@/store/authStore";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import { CircularProgress } from "@mui/material";
 
 const EditDishComp = ({ userInfo }) => {
   const [dishName, setDishName] = useState("");
@@ -65,6 +66,9 @@ const EditDishComp = ({ userInfo }) => {
   };
 
   const handleClose = () => {
+    if(isEditingDish) {
+      return
+    }
     setEditDish(null);
   };
 
@@ -120,7 +124,7 @@ const EditDishComp = ({ userInfo }) => {
             type="submit"
             className="button editProfileBtn"
           >
-            <span>Update</span>
+            {!isEditingDish ? <span>Update</span> : <CircularProgress size={20} />}
           </button>
         </form>
       </div>

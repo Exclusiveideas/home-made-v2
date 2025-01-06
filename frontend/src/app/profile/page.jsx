@@ -11,11 +11,14 @@ import ProfilePageSkeleton from '@/profilePageComponents/ProfilePageSkeleton';
 import ClientProfile from '@/profilePageComponents/clientProfile';
 import ChefProfile from '@/profilePageComponents/chefProfile';
 import MenuNav from "../components/menuNav";
+import { refreshUser } from "@/utils/functions";
 
  
 const ProfilePage = () => {
   const userInfo = useAuthStore((state) => state.user);
+  const updateUser = useAuthStore((state) => state.updateUser);
   const enqueueSnack = useProfilePageStore((state) => state.enqueueSnack);
+  const setEnqueueSnack = useProfilePageStore((state) => state.setEnqueueSnack);
   const enqueueFuncRef = useRef();
 
   const router = useRouter();
@@ -43,6 +46,11 @@ const ProfilePage = () => {
       callEnqueueSnackbar(enqueueSnack?.message, enqueueSnack?.type)
     }
   }, [enqueueSnack])
+  
+  useEffect(() => {
+    if (!userInfo?._id) return
+    refreshUser(userInfo?._id, updateUser, setEnqueueSnack);
+  }, []);
   
 
   return (

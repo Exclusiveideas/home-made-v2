@@ -28,6 +28,7 @@ const SignUpComp = ({ revealLogin, routeUser }) => {
     }
 
     setLoading(true)
+    clearErr()
     aunthenticateUser(email, password)    
   };
 
@@ -39,7 +40,7 @@ const SignUpComp = ({ revealLogin, routeUser }) => {
     const authResponse = await signupUser({ email, password});
 
     if(authResponse.status == 200) {
-      updateUser(authResponse?.userDetails)
+      updateUser(authResponse?.newUser)
 
       routeUser('onboarding')
     } else {

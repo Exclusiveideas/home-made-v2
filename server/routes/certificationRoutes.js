@@ -36,13 +36,34 @@ router.post('/create', async (req, res) => {
     }
 
     // Return success response
-    res.status(201).json({
-      message: "Certification created and added to user's profile",
-      certification: savedCertification,
-      user: updatedUser,
-    });
+    res.status(201).json(updatedUser);
   } catch (err) {
     res.status(500).json({ message: "Error creating certification", error: err.message });
+  }
+});
+
+
+// Fetch one Certification
+router.get("/fetch", async (req, res) => {
+  const { certificationID } = req.query;
+  
+// Validate input
+if (!certificationID) {
+  return res.status(400).json({ message: "Certification ID is required" });
+}
+
+  try {
+    // Find the certification by ID
+    const certification = await CertificationModel.findById(certificationID);
+
+  // Check if the certification exists
+  if (!certification) {
+    return res.status(404).json({ message: "Certification not found" });
+  }
+
+    res.status(200).json(certification);  // Return the certification
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching the certification", error: err.message });
   }
 });
 
@@ -75,14 +96,14 @@ router.delete('/delete', async (req, res) => {
     }
 
     // Delete the certification
-    await CertificationModel.findByIdAndDelete(certificationID);
+    const deletedCertification = await CertificationModel.findByIdAndDelete(certificationID);
 
     // Remove the certification ID from the user's certifications array
     const updatedUser = await UserModel.findByIdAndUpdate(
       chef, // User ID (assuming chef is the user ID)
       { $pull: { certifications: certificationID } }, // Remove certification ID
       { new: true } // Return the updated user document
-    );
+    ).exec();
 
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
@@ -91,7 +112,7 @@ router.delete('/delete', async (req, res) => {
     // Return success response
     res.status(200).json({
       message: "Certification deleted and removed from user's profile",
-      user: updatedUser,
+      deletedCertification
     });
   } catch (err) {
     res

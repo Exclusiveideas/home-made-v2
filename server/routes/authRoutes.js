@@ -89,17 +89,15 @@ router.put("/reset", async (req, res) => {
     // Optional: Add password validation here
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
-    const updatedUser = await UserModel.findOneAndUpdate(
+    await UserModel.findOneAndUpdate(
       { email },
       { password: hashedNewPassword },
       { new: true }
     );
 
-    const { password, ...others } = updatedUser._doc;
-
     return res
       .status(200)
-      .json({ message: "Password updated successfully", user: others });
+      .json({ message: "Password updated successfully" });
   } catch (err) {
     return res
       .status(500)

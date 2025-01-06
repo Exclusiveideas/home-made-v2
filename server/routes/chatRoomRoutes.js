@@ -5,6 +5,10 @@ const { ChatRoomModel } = require("../models");
 // Create a Chatroom
 router.post('/create', async (req, res) => {
     const { memberA, memberB } = req.body;
+
+  if(!memberA || !memberB) {
+    return res.status(400).json({ message: "Both members are required" });
+  }
   
     try {
       // Check if a chatroom already exists between these two members
@@ -37,28 +41,40 @@ router.post('/create', async (req, res) => {
 
 
 // Fetch Chatroom Details
-router.get('/', async (req, res) => {
-    const { chatRoomID } = req.query;
-  
-    try {
-      const chatRoom = await ChatRoomModel.findById(chatRoomID).populate('messages');
-  
-      if (!chatRoom) {
-        return res.status(404).json({ message: "Chatroom not found" });
-      }
-  
-      res.status(200).json(chatRoom);
-  
-    } catch (err) {
-      res.status(500).json({ message: "Error fetching chatroom details", error: err.message });
+router.get("/", async (req, res) => {
+  const { chatRoomID } = req.query;
+
+  if (!chatRoomID) {
+    return res.status(400).json({ message: "chatRoom ID is required" });
+  }
+
+  try {
+    const chatRoom = await ChatRoomModel.findById(chatRoomID).populate(
+      "messages"
+    );
+
+    if (!chatRoom) {
+      return res.status(404).json({ message: "Chatroom not found" });
     }
-  });
+
+    res.status(200).json(chatRoom);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error fetching chatroom details", error: err.message });
+  }
+});
   
 
 
 // Fetch User's Chatroom Details
 router.get('/fetch', async (req, res) => {
   const { userID } = req.query;
+
+  if(!userID) {
+    return res.status(400).json({ message: "user ID is required" });
+  }
+
 
   try {
     // Find all chatrooms where the user is a participant

@@ -6,8 +6,13 @@ import useProfilePageStore from "@/store/profilePageStore";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { useEffect, useState } from "react";
 import { updateEmployment } from "@/api";
+import useAuthStore from "@/store/authStore";
+import { refreshUser } from "@/utils/functions";
+import { CircularProgress } from "@mui/material";
 
 const EditEmploymentSect = () => {
+  const [isUpdating, setIsUpdating] = useState(false);
+
   const editEmploymentSect = useProfilePageStore(
     (state) => state.editEmploymentSect
   );
@@ -16,6 +21,9 @@ const EditEmploymentSect = () => {
   );
 
   const handleClose = () => {
+    if(isUpdating) {
+      return
+    }
     setEditEmploymentSect({});
   };
 
@@ -33,6 +41,8 @@ const EditEmploymentSect = () => {
         <EditComp
           editEmploymentSect={editEmploymentSect}
           handleClose={handleClose}
+          isUpdating={isUpdating}
+          setIsUpdating={setIsUpdating}
         />
       </div>
     </Backdrop>
@@ -41,7 +51,7 @@ const EditEmploymentSect = () => {
 
 export default EditEmploymentSect;
 
-export const EditComp = ({ editEmploymentSect, handleClose }) => {
+export const EditComp = ({ editEmploymentSect, handleClose, isUpdating, setIsUpdating }) => {
   const [positionHeld, setPositionHeld] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [jobDuration, setJobDuration] = useState({
@@ -49,9 +59,10 @@ export const EditComp = ({ editEmploymentSect, handleClose }) => {
     to: "",
   });
   const [jobDesc, setJobDesc] = useState("");
-  const [isUpdating, setIsUpdating] = useState(false);
 
   const setEnqueueSnack = useProfilePageStore((state) => state.setEnqueueSnack);
+  const userInfo = useAuthStore((state) => state.user);
+  const updateUser = useAuthStore((state) => state.updateUser);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,6 +83,8 @@ export const EditComp = ({ editEmploymentSect, handleClose }) => {
         type: "success",
       });
     }
+    
+    refreshUser(userInfo?._id, updateUser, setEnqueueSnack);
 
     handleClose();
   };
@@ -87,6 +100,7 @@ export const EditComp = ({ editEmploymentSect, handleClose }) => {
         jobDesc: jobDesc,
         startDate: jobDuration?.from,
         endDate: jobDuration?.endDate,
+        chef: userInfo?._id
       });
       return response;
     } catch (error) {
@@ -186,7 +200,7 @@ export const EditComp = ({ editEmploymentSect, handleClose }) => {
           type="submit"
           className="button editProfileBtn"
         >
-          <span>Change</span>
+          {!isUpdating ? <span>Change</span> : <CircularProgress size={20} />}
         </button>
       </form>
     </>

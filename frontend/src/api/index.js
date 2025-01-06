@@ -1,5 +1,5 @@
+import { getCurrentTime } from "@/utils/functions";
 import axios from "axios";
-import { updatedUser } from "@/utils/constants";
 
 const API = axios.create({ baseURL: process.env.NEXT_PUBLIC_SERVER_URI });
 
@@ -8,11 +8,11 @@ const API = axios.create({ baseURL: process.env.NEXT_PUBLIC_SERVER_URI });
 export const signupUser = async (userDetails) => {
   try {
     const newUser = await API.post("/api/auth/signup", userDetails);
-    return { status: 200, newUser };
+    return { status: 200, newUser: newUser?.data?.user };
   } catch (error) {
     return {
       status: 500,
-      errorMessage: "Error creating account. Try again later.",
+      errorMessage: `Error creating account - ${error?.response?.data?.message}`,
     };
   }
 };
@@ -21,96 +21,74 @@ export const loginUser = async (loginDetails) => {
   try {
     const userDetails = await API.post("/api/auth/login", loginDetails);
 
-    return { status: 200, userDetails };
+    return { status: 200, userDetails: userDetails?.data?.user };
   } catch (error) {
-    return { status: 500, errorMessage: "Error logging in. Try again later." };
+    return { status: 500, errorMessage: `Error logging in - ${error?.response?.data?.message}` };
   }
 };
 
-// export const logOutUser = async () => {
-//     // Description: Log out the user by clearing their tokens.
-//     // Request Parameters: None.
-
-//     // if you're storing the token, don't you need the user's _id to know which token to clear
-// }
 
 export const resetUserPassword = async (resetDetails) => {
-  // resetDetails = {
-  //     email: '',
-  //     name: '',
-  //     newPassword: '',
-  // }
-  
-  return { status: 200, confirmationMessage: '' };
 
   try {
     const confirmationMessage = await API.post("/api/auth/reset", resetDetails);
 
-    return { status: 200, confirmationMessage };
+    return { status: 200, confirmationMessage: confirmationMessage?.data?.message };
   } catch (error) {
     return {
       status: 500,
-      errorMessage: "Error resetting password. Try again later.",
+      errorMessage: `Error resetting password - ${error?.response?.data?.message}`,
     };
   }
 };
 
+
+
 // User
 
 export const getUserProfile = async (userID) => {
-  // return { status: 200, userProfile: updatedUser };
-  try {
-    const userProfile = await API.get(`/api/auth/profile?userID=${userID}`);
 
-    return { status: 200, userProfile };
+  try {
+    const userProfile = await API.get(`/api/profile?userID=${userID}`);
+
+    return { status: 200, userProfile: userProfile?.data?.user };
   } catch (error) {
     return {
       status: 500,
-      errorMessage: `Error fetching user's profile. Try again later.`,
+      errorMessage: `Error - ${error?.response?.data?.message}.`,
     };
   }
 };
 
 export const updateUserProfile = async (updatedInfo) => {
-  return { status: 200, updatedUser: updatedUser };
+
   try {
     const updatedUser = await API.put("/api/profile/update", updatedInfo);
 
-    return { status: 200, updatedUser };
+    return { status: 200, updatedUser: updatedUser?.data };
   } catch (error) {
+    console.log('error: ', error)
     return {
       status: 500,
-      errorMessage: `Error updating user's profile. Try again later.`,
+      errorMessage: `Error updating user's profile - ${error?.response?.data?.message}`,
     };
   }
 };
 
-// export const deleteUser = async (userID) => {
-
-//     try {
-//         const confirmationMessage = await API.delete('/api/profile/delete', userID)
-
-//         return { status: 200, confirmationMessage }
-
-//     } catch (error) {
-//         return { status: 500, errorMessage: `Error deleting your account. Try again later.`}
-//     }
-// }
 
 export const getAllChefs = async () => {
   try {
     const allChefs = await API.get("/api/chefs");
 
-    return { status: 200, allChefs };
+    return { status: 200, allChefs: allChefs?.data };
   } catch (error) {
-    return { status: 500, errorMessage: `Error fetching chefs. Reload page.` };
+    return { status: 500, errorMessage: `Error fetching chefs - ${error?.response?.data?.message}` };
   }
 };
 
 // Dishes
 
 export const createDish = async (newDishDetails) => {
-  return { status: 200, newDish: {} };
 
   try {
     const newDish = await API.post("/api/dish/create", newDishDetails);
@@ -119,7 +97,7 @@ export const createDish = async (newDishDetails) => {
   } catch (error) {
     return {
       status: 500,
-      errorMessage: "Error creating dish. Try again later.",
+      errorMessage: `Error creating dish - ${error?.response?.data?.message}`,
     };
   }
 };
@@ -128,56 +106,54 @@ export const getAllDish = async () => {
   try {
     const allDish = await API.get("/api/dish");
 
-    return { status: 200, allDish };
+    return { status: 200, allDish: allDish?.data };
   } catch (error) {
     return {
       status: 500,
-      errorMessage: `Error fetching all dish. Reload page.`,
+      errorMessage: `Error fetching all dish - ${error?.response?.data?.message}`,
     };
   }
 };
 
-// export const getOneDish = async (dishID) => {
-//     // dishID
+export const getOneDish = async (dishID) => {
 
-//     try {
-//         const fetchedDish = await API.get(`/api/dish/:${dishID}`)
+    try {
+        const fetchedDish = await API.get(`/api/dish/fetch?dishID=${dishID}`)
+        return { status: 200, fetchedDish: fetchedDish?.data };
 
-//         return { status: 200, fetchedDish }
-
-//     } catch (error) {
-//         return { status: 500, errorMessage: `Error fetching dish. Try again later.`}
-//     }
-// }
+    } catch (error) {
+        return { status: 500, errorMessage: `Error fetching dish - ${error?.response?.data?.message}`}
+    }
+}
 
 export const updateDish = async (updatedDishInfo) => {
-  return { status: 200, updatedDish: {} };
 
   try {
     const updatedDish = await API.put(`/api/dish/update`, updatedDishInfo);
 
-    return { status: 200, updatedDish };
+    return { status: 200, updatedDish: updatedDish?.data };
   } catch (error) {
     return {
       status: 500,
-      errorMessage: `Error updating dish. Try again later.`,
+      errorMessage: `Error updating dish - ${error?.response?.data?.message}`,
     };
   }
 };
 
-export const deleteDish = async (dishID) => {
-  return { status: 200, confirmationMessage: "" };
+export const deleteDish = async ({ dishID, chef}) => {
 
   try {
-    const confirmationMessage = await API.delete(
-      `/api/dish/delete?dishID=${dishID}`
-    ); // there's a mistake in their route
+    const deleteResponse = await API.delete(
+      `/api/dish/delete?dishID=${dishID}`,{
+        data: { chef },
+      }
+    );
 
-    return { status: 200, confirmationMessage };
+    return { status: 200, deletedDish: deleteResponse?.data?.deletedDish };
   } catch (error) {
     return {
       status: 500,
-      errorMessage: `Error deleting dish. Try again later.`,
+      errorMessage: `Error deleting dish - ${error?.response?.data?.message}`,
     };
   }
 };
@@ -187,89 +163,108 @@ export const deleteDish = async (dishID) => {
 export const createEmployment = async (newEmploymentDetails) => {
   try {
     const newEmployment = await API.post(
-      "/api/employment/create",
+      "/api/experience/create",
       newEmploymentDetails
     );
 
-    return { status: 200, newEmployment };
+    return { status: 200, updatedUser:  newEmployment?.data};
   } catch (error) {
     return {
       status: 500,
-      errorMessage: "Error creating employment. Try again later.",
+      errorMessage: `Error creating employment - ${error?.response?.data?.message}`,
     };
   }
 };
+
+
+export const getOneExperience = async (experienceID) => {
+
+  try {
+      const fetchedExperience = await API.get(`/api/experience/fetch?experienceID=${experienceID}`);
+
+      return { status: 200, fetchedExperience: fetchedExperience?.data };
+  } catch (error) {
+      return { status: 500, errorMessage: `Error fetching experience - ${error?.response?.data?.message}`}
+  }
+}
 
 export const updateEmployment = async (updatedEmploymentInfo) => {
-  return { status: 200, updatedEmployment: {} };
-
   try {
-    const updatedEmployment = await API.put(
-      `/api/employment/update/`,
-      updatedEmploymentInfo
-    );
+    await API.put(`/api/experience/update/`, updatedEmploymentInfo);
 
-    return { status: 200, updatedEmployment };
+    return { status: 200 };
   } catch (error) {
     return {
       status: 500,
-      errorMessage: `Error updating employment. Try again later.`,
+      errorMessage: `Error updating employment - ${error?.response?.data?.message}`,
     };
   }
 };
 
-export const deleteEmployment = async (employmentID) => {
-  return { status: 200, confirmationMessage: "successfully deleted" };
+export const deleteEmployment = async ({experienceID, chef}) => {
 
   try {
-    const confirmationMessage = await API.delete(
-      `/api/employment/deleteemploymentID=${employmentID}`
+    const deleteResponse = await API.delete(
+      `/api/experience/delete?experienceID=${experienceID}`,{
+        data: { chef },
+      }
     );
 
-    return { status: 200, confirmationMessage };
+    return { status: 200, deletedExp: deleteResponse?.data?.deletedExperience };
   } catch (error) {
     return {
       status: 500,
-      errorMessage: `Error deleting employment. Try again later.`,
+      errorMessage: `Error deleting employment - ${error?.response?.data?.message}`,
     };
   }
 };
+
 
 // certifications
 
 export const createCertification = async (newCertificationDetails) => {
-  // newCertificationDetails = certification Details
-  return { status: 200, newCertification: "" };
 
   try {
     const newCertification = await API.post(
       "/api/certification/create",
       newCertificationDetails
     );
-    // newCertification = newCertificationDetails
 
-    return { status: 200, newCertification };
+    return { status: 200, updatedUser:  newCertification?.data};
   } catch (error) {
     return {
       status: 500,
-      errorMessage: "Error creating certification. Try again later.",
+      errorMessage: `Error creating certification - ${error?.response?.data?.message}`,
     };
   }
 };
 
-export const deleteCertification = async (certificationID) => {
-  return { status: 200, confirmationMessage: "successfully deleted" };
+
+export const getOneCertification = async (certificationID) => {
 
   try {
-    const confirmationMessage = await API.delete(
-      `/api/certification/delete?certificationID=${certificationID}`
+      const fetchedCertification = await API.get(`/api/certification/fetch?certificationID=${certificationID}`);
+
+      return { status: 200, fetchedCertification: fetchedCertification?.data };
+  } catch (error) {
+      return { status: 500, errorMessage: `Error fetching certification - ${error?.response?.data?.message}`}
+  }
+}
+
+export const deleteCertification = async ({certificationID, chef}) => {
+
+  try {
+    const deleteResponse = await API.delete(
+      `/api/certification/delete?certificationID=${certificationID}`,{
+        data: { chef },
+      }
     );
 
-    return { status: 200, confirmationMessage };
+    return { status: 200, deletedCertification: deleteResponse?.data?.deletedCertification };
   } catch (error) {
     return {
       status: 500,
-      errorMessage: `Error deleting certification. Try again later.`,
+      errorMessage: `Error deleting certification - ${error?.response?.data?.message}`,
     };
   }
 };
@@ -283,11 +278,11 @@ export const createChatRoom = async (participantsInfo) => {
       participantsInfo
     );
 
-    return { status: 200, newChatRoom };
+    return { status: 200, newChatRoom: newChatRoom?.data };
   } catch (error) {
     return {
       status: 500,
-      errorMessage: "Error routing to chat room. Try again later.",
+      errorMessage: `Error routing to chat room - ${error?.response?.data?.message}`,
     };
   }
 };
@@ -296,57 +291,35 @@ export const createChatRoom = async (participantsInfo) => {
 export const fetchUserChatRooms = async (userID) => {
   try {
     const allChatRooms = await API.get(
-      `/api/chatRooms/fetch?userID=${userID}`
+      `/api/chatRoom/fetch?userID=${userID}`
     );
 
-    // allChatRooms = [
-      // {
-      //   _id: '', // a chatroom ID
-      //   secondMember: {
-      //     name: '', // name of the second participant
-      //     image: '' // picture of the second participant
-      //   },  
-      //   lastMessage: {
-      //     message: '', // last message of this chatroom
-      //     timeCreated: '', // time message was Created
-      //   }, 
-
-      // }
-    // ]
-
-    return { status: 200, allChatRooms };
+    return { status: 200, allChatRooms: allChatRooms?.data };
   } catch (error) {
-    return { status: 500, errorMessage: "Error fetching chats rooms. reload page." };
+    return { status: 500, errorMessage: `Error fetching chats rooms - ${error?.response?.data?.message}` };
   }
 };
 
 export const fetchChatRoomDetails = async (chatRoomID) => {
   try {
     const chatRoomDetails = await API.get(
-      `/api/chatRoom/fetch?chatRoomID=${chatRoomID}`
+      `/api/chatRoom?chatRoomID=${chatRoomID}`
     );
 
-    return { status: 200, chatRoomDetails };
+    return { status: 200, chatRoomDetails: chatRoomDetails?.data?.messages };
   } catch (error) {
-    return { status: 500, errorMessage: "Error fetching chats. reload page." };
+    return { status: 500, errorMessage: `Error fetching chats - ${error?.response?.data?.message}` };
   }
 };
 
 // Message
 
 export const createMessage = async (messageDetails) => {
-  return { status: 200, newMessage: "" };
-
-  let now = new Date();
-  let hours = now.getHours();
-  let minutes = now.getMinutes();
-
-  const timeCreated = `${hours}:${minutes}`;
 
   const newMssgDetails = {
     senderID: messageDetails?.senderID,
     message: messageDetails?.message,
-    time: timeCreated,
+    time: getCurrentTime(),
     chatRoomID: messageDetails?.chatRoomID,
   };
 
@@ -357,7 +330,7 @@ export const createMessage = async (messageDetails) => {
   } catch (error) {
     return {
       status: 500,
-      errorMessage: "Error sending message. Try again later.",
+      errorMessage: `Error sending message - ${error?.response?.data?.message}`,
     };
   }
 };
