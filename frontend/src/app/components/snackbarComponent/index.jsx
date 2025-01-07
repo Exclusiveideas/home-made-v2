@@ -1,6 +1,5 @@
-
-import { SnackbarProvider, useSnackbar } from "notistack";
 import { forwardRef, useImperativeHandle } from "react";
+import { SnackbarProvider, useSnackbar } from "notistack";
 
 const SnackbarComponent = forwardRef((_, ref) => {
   return (
@@ -9,8 +8,7 @@ const SnackbarComponent = forwardRef((_, ref) => {
     </SnackbarProvider>
   );
 });
-
-export default SnackbarComponent;
+SnackbarComponent.displayName = "SnackbarComponent";
 
 const Snackbar = forwardRef((_, ref) => {
   const { enqueueSnackbar } = useSnackbar();
@@ -20,8 +18,12 @@ const Snackbar = forwardRef((_, ref) => {
   }
 
   useImperativeHandle(ref, () => ({
-    enqueueSnack
+    enqueueSnack,
   }));
 
-  return <></>;
-})
+  // Returning null to indicate no renderable UI for this component
+  return null;
+});
+Snackbar.displayName = "Snackbar";
+
+export default SnackbarComponent;

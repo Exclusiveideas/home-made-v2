@@ -101,7 +101,7 @@ const LoginComp = ({ revealSignUp, routeUser }) => {
         <div className="inputBox">
           <input
             type={showPassword ? "text" : "password"}
-            placeholder={`Your ${showResetForm ? 'new ' : ''}password`}
+            placeholder={`Your ${showResetForm ? "new " : ""}password`}
             name="password"
             id="login-password"
             className="inputEl"
@@ -144,11 +144,15 @@ const LoginComp = ({ revealSignUp, routeUser }) => {
           </p>
         )}
         <button type="submit" className="button authBtn">
-          {!loading ? <span>{showResetForm ? 'Reset' : 'Submit'}</span> : <CircularProgress size={20} />}
+          {!loading ? (
+            <span>{showResetForm ? "Reset" : "Submit"}</span>
+          ) : (
+            <CircularProgress size={20} />
+          )}
         </button>
       </form>
       <p onClick={() => revealSignUp()} className="loginTxt">
-        Don't have an account? <span>create one</span>
+        {"Don't have an account?"} <span>Create one</span>
       </p>
     </div>
   );

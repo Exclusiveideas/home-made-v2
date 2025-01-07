@@ -10,7 +10,7 @@ import useAuthStore from "@/store/authStore";
 import { refreshUser, uploadImage } from "@/utils/functions";
 import { CircularProgress } from "@mui/material";
 
-const addNewSect = () => {
+const AddNewSect = () => {
   const [isCreating, setIsCreating] = useState(false)
   const addSection = useProfilePageStore((state) => state.addSection);
   const setAddSection = useProfilePageStore((state) => state.setAddSection);
@@ -69,7 +69,7 @@ const addNewSect = () => {
   );
 };
 
-export default addNewSect;
+export default AddNewSect;
 
 
 const AddDishComp = ({

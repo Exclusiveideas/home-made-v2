@@ -91,6 +91,8 @@ const OnboardingStepTwo = forwardRef(
   }
 );
 
+OnboardingStepTwo.displayName = "OnboardingStepTwo";
+
 export default OnboardingStepTwo;
 
 const ChefFormComponents = ({
@@ -197,7 +199,7 @@ const ChefFormComponents = ({
         <span>Submit</span>
       </button>
     </form>
-  );
+  ); 
 };
 
 
