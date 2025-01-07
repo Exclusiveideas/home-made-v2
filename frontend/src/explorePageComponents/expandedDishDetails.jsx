@@ -110,23 +110,27 @@ const ExpandedDishDetails = () => {
       {expandedDishDetails && (
         <div className="expandedDishDetails_wrapper">
           <div className="actionBtns">
-            <DeleteIcon
-              onClick={() => 
-                setConfirmDelete({
-                  label: "dish",
-                  toDelete: expandedDishDetails,
-                })
-              }
-              className={`deleteDishIcon ${
-                userInfo?._id == expandedDishDetails?.chef && "visible"
-              }`}
-            />
-            <DriveFileRenameOutlineOutlinedIcon
-              onClick={editThisDish}
-              className={`editDishIcon ${
-                userInfo?._id == expandedDishDetails?.chef && "visible"
-              }`}
-            />
+            {expandedDishDetails?.chef == userInfo?._id && (
+              <>
+                <DeleteIcon
+                  onClick={() =>
+                    setConfirmDelete({
+                      label: "dish",
+                      toDelete: expandedDishDetails,
+                    })
+                  }
+                  className={`deleteDishIcon ${
+                    userInfo?._id == expandedDishDetails?.chef && "visible"
+                  }`}
+                />
+                <DriveFileRenameOutlineOutlinedIcon
+                  onClick={editThisDish}
+                  className={`editDishIcon ${
+                    userInfo?._id == expandedDishDetails?.chef && "visible"
+                  }`}
+                />
+              </>
+            )}
             <CloseOutlinedIcon
               sx={{ fontSize: 30 }}
               onClick={handleClose}
@@ -186,7 +190,7 @@ const ExpandedDishDetails = () => {
                     ) : (
                       <CircularProgress size={20} />
                     )}
-                  </button> 
+                  </button>
                 )}
               </div>
             </div>

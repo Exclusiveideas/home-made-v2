@@ -11,14 +11,14 @@
     padding: 1rem 0;
 }
 
-.circleSkeleton {
+.profile_circleSkeleton {
     width: 200px;
 }
 
-.textSkeleton {
+.profile_textSkeleton {
     width: 400px;
 }
 
-.rectSkeleton {
+.profile_rectSkeleton {
     width: 65vw;
 }
