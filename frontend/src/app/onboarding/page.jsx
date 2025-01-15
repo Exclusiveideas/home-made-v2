@@ -37,6 +37,7 @@ const Onboarding = () => {
     clientName: '',
     location: '',
     position: { latitude: '', longitude: ''},
+    role: 'client'
   })
 
   const [chefPicture, setChefPicture] = useState(null)
@@ -106,7 +107,8 @@ const Onboarding = () => {
       ...userInfo,
       name: clientInfo?.clientName,
       location: clientInfo?.location,
-      position: clientInfo?.position
+      position: clientInfo?.position,
+      role: 'client'
     })
 
     return response
